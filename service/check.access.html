@@ -1,0 +1,68 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Login</title>  
+    <script src="https://cdn.tailwindcss.com"></script>  
+</head>  
+<body class="flex items-center justify-center h-screen bg-gray-100">  
+    <div class="bg-white p-6 rounded shadow-md w-96">  
+        <h2 class="text-xl font-bold mb-4">Login</h2>  
+        <form id="loginForm">  
+            <div class="mb-4">  
+                <label for="myid" class="block text-sm font-medium text-gray-700">User ID</label>  
+                <input type="text" id="myid" name="myid" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />  
+            </div>  
+            <div class="mb-4">  
+                <label for="mypassword" class="block text-sm font-medium text-gray-700">Password</label>  
+                <input type="password" id="mypassword" name="mypassword" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />  
+            </div>  
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded">Login</button>  
+        </form>  
+    </div>  
+
+    <script>  
+        document.getElementById('loginForm').addEventListener('submit', function(event) {  
+            event.preventDefault();  
+
+            const myid = document.getElementById('myid').value;  
+            const mypassword = document.getElementById('mypassword').value;  
+
+            // Simulated user data (replace with actual API call)  
+            const users = {  
+                'admin': { password: 'adminpass', usertype: 'admin' },  
+                'teacher': { password: 'teacherpass', usertype: 'teacher' },  
+                'student': { password: 'studentpass', usertype: 'student' },  
+                'staff': { password: 'staffpass', usertype: 'staff' },  
+                'parent': { password: 'parentpass', usertype: 'parent' }  
+            };  
+
+            if (users[myid] && users[myid].password === mypassword) {  
+                const control = users[myid].usertype;  
+                switch (control) {  
+                    case 'admin':  
+                        window.location.href = '../module/admin';  
+                        break;  
+                    case 'teacher':  
+                        window.location.href = '../module/teacher';  
+                        break;  
+                    case 'student':  
+                        window.location.href = '../module/student';  
+                        break;  
+                    case 'staff':  
+                        window.location.href = '../module/staff';  
+                        break;  
+                    case 'parent':  
+                        window.location.href = '../module/parent';  
+                        break;  
+                    default:  
+                        window.location.href = '../index.php?login=false';  
+                }  
+            } else {  
+                window.location.href = '../index.php?login=false';  
+            }  
+        });  
+    </script>  
+</body>  
+</html>
