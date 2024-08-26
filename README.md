@@ -9,4 +9,4 @@ School of Basic and Advanced Studies Information System
 - [Stud_Info](studt.html)
 - [Pic_search](https://script.google.com/macros/s/AKfycbz77MmOv6w3-UT3-IZxY7joLI-o2b2hGqkm82uANhxzjO6h37xrAlvw77Kg9RD2Aihw/exec)
 - [Mangt System](index.php)
-- [Search](module/teacher/JS/searchStudent.js)
+- [Search_Std](module/teacher/JS/searchStudent.js)
