@@ -1,0 +1,19 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Database Connection</title>  
+    <script>  
+        async function connectToDatabase() {  
+            const response = await fetch('/connect');  
+            const data = await response.json();  
+            console.log(data);  
+        }  
+    </script>  
+</head>  
+<body>  
+    <h1>Connect to Database</h1>  
+    <button onclick="connectToDatabase()">Connect</button>  
+</body>  
+</html>
