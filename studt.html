@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information System</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        form { margin-bottom: 20px; }
+        input, button { margin: 10px 0; }
+        #searchResult { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Student Information System</h1>
+
+    <form id="studentForm">
+        <h2>Add Student</h2>
+        <input type="text" id="admissionNumber" placeholder="Admission Number" required><br>
+        <input type="text" id="name" placeholder="Full Name" required><br>
+        <input type="email" id="email" placeholder="Email" required><br>
+        <input type="file" id="passport" accept="image/*" required><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div>
+        <h2>Search Student</h2>
+        <input type="text" id="searchAdmissionNumber" placeholder="Enter Admission Number">
+        <button onclick="searchStudent()">Search</button>
+    </div>
+
+    <div id="searchResult"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
