@@ -12,4 +12,4 @@
 # Parents features 
 * *see account information with picture. * *modify contact information and password. * *see his/her students report. * *Attendance like this month absent present his students. * * see his/her students Grade. * *see his/her student’s payment.
   #SOBAS
-  - [Click](db/schoolmanagementsystemdb)
+  - [Click](index.php)
