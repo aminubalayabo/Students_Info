@@ -30,7 +30,7 @@
         // Function to initialize data
         async function initializeData() {
             const detailsData = await loadCSV('https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/SOBAS/students_Details.csv');
-            const scoresData = await loadCSV('SOBAS/students.csv');
+            const scoresData = await loadCSV('https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/SOBAS/students.csv');
 
             studentsDetails = detailsData.map(row => ({
                 serial: row[0],
