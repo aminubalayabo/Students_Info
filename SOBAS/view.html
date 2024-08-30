@@ -1,91 +1,60 @@
 
     <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="flex items-center justify-center h-screen bg-gray-100">
-    <div class="bg-white p-6 rounded shadow-md w-96">
-        <h2 class="text-xl font-bold mb-4">Student Login</h2>
-        <input type="text" id="username" placeholder="Username" class="border p-2 mb-4 w-full" />
-        <input type="password" id="password" placeholder="Admission Number" class="border p-2 mb-4 w-full" />
-        <button onclick="login()" class="bg-blue-500 text-white p-2 rounded w-full">Login</button>
-        <div id="result" class="mt-4"></div>
-    </div>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Login</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="flex items-center justify-center h-screen bg-gray-100">
+        <div class="bg-white p-6 rounded shadow-md w-96">
+            <h2 class="text-xl font-bold mb-4">Student Login</h2>
+            <input type="text" id="username" placeholder="Username" class="border p-2 mb-4 w-full" />
+            <input type="password" id="password" placeholder="Admission Number" class="border p-2 mb-4 w-full" />
+            <button onclick="login()" class="bg-blue-500 text-white p-2 rounded w-full">Login</button>
+            <div id="result" class="mt-4"></div>
+        </div>
 
-    <script>
-        let studentsDetails = [];
-        let studentsScores = [];
+        <script>
+            const studentsDetails = [
+                { serial: 1, username: "student1", password: "12345", name: "John Doe" },
+                { serial: 2, username: "student2", password: "67890", name: "Jane Smith" }
+            ];
 
-        // Function to load CSV data
-        async function loadCSV(url) {
-            const response = await fetch(url);
-            const data = await response.text();
-            return data.split('\n').slice(1).map(row => row.split(','));
-        }
+            const studentsScores = [
+                { serial: 1, admissionNumber: "12345", name: "John Doe", sex: "M", state: "State1", LGA: "LGA1", Biology: 75, Chemistry: 80, English: 85, Mathematics: 90, Physics: 70 },
+                { serial: 2, admissionNumber: "67890", name: "Jane Smith", sex: "F", state: "State2", LGA: "LGA2", Biology: 88, Chemistry: 92, English: 78, Mathematics: 85, Physics: 80 }
+            ];
 
-        // Function to initialize data
-        async function initializeData() {
-            const detailsData = await loadCSV("https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/SOBAS/students_Details.csv");
-            const scoresData = await loadCSV("https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/SOBAS/students.csv");
+            function login() {
+                const username = document.getElementById("username").value;
+                const password = document.getElementById("password").value;
 
-            studentsDetails = detailsData.map(row => ({
-                serial: row[0],
-                username: row[1],
-                password: row[2],
-                name: row[3]
-            }));
+                const studentDetail = studentsDetails.find(student => student.username === username && student.password === password);
+                if (studentDetail) {
+                    const studentScores = studentsScores.find(student => student.admissionNumber === password);
+                    if (studentScores) {
+                        const totalScore = studentScores.Biology + studentScores.Chemistry + studentScores.English + studentScores.Mathematics + studentScores.Physics;
+                        const averageScore = totalScore / 5;
 
-            studentsScores = scoresData.map(row => ({
-                serial: row[0],
-                admissionNumber: row[1],
-                name: row[2],
-                sex: row[3],
-                state: row[4],
-                LGA: row[5],
-                Biology: parseFloat(row[6]),
-                Chemistry: parseFloat(row[7]),
-                English: parseFloat(row[8]),
-                Mathematics: parseFloat(row[9]),
-                Physics: parseFloat(row[10])
-            }));
-        }
-
-        function login() {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-
-            const studentDetail = studentsDetails.find(student => student.username === username && student.password === password);
-            if (studentDetail) {
-                const studentScores = studentsScores.find(student => student.admissionNumber === password);
-                if (studentScores) {
-                    const totalScore = studentScores.Biology + studentScores.Chemistry + studentScores.English + studentScores.Mathematics + studentScores.Physics;
-                    const averageScore = totalScore / 5;
-
-                    document.getElementById("result").innerHTML = `
-                        <h3 class="font-bold mt-4">Scores for ${studentScores.name}</h3>
-                        <p>Biology: ${studentScores.Biology}</p>
-                        <p>Chemistry: ${studentScores.Chemistry}</p>
-                        <p>English: ${studentScores.English}</p>
-                        <p>Mathematics: ${studentScores.Mathematics}</p>
-                        <p>Physics: ${studentScores.Physics}</p>
-                        <p>Total Score: ${totalScore}</p>
-                        <p>Average Score: ${averageScore.toFixed(2)}</p>
-                    `;
+                        document.getElementById("result").innerHTML = `
+                            <h3 class="font-bold mt-4">Scores for ${studentScores.name}</h3>
+                            <p>Biology: ${studentScores.Biology}</p>
+                            <p>Chemistry: ${studentScores.Chemistry}</p>
+                            <p>English: ${studentScores.English}</p>
+                            <p>Mathematics: ${studentScores.Mathematics}</p>
+                            <p>Physics: ${studentScores.Physics}</p>
+                            <p>Total Score: ${totalScore}</p>
+                            <p>Average Score: ${averageScore.toFixed(2)}</p>
+                        `;
+                    } else {
+                        document.getElementById("result").innerText = "No scores found for this admission number.";
+                    }
                 } else {
-                    document.getElementById("result").innerText = "No scores found for this admission number.";
+                    document.getElementById("result").innerText = "Invalid username or password.";
                 }
-            } else {
-                document.getElementById("result").innerText = "Invalid username or password.";
             }
-        }
-
-        // Initialize data on page load
-        window.onload = initializeData;
-    </script>
-</body>
-
-</html>
+        </script>
+    </body>
+    </html>
