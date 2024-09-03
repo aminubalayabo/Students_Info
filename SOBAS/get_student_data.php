@@ -7,7 +7,7 @@ if (isset($_SESSION['username'])) {
 
 header('Content-Type: application/json');
 
-$filename = 'SOBAS/students_results.txt';
+$filename = 'https://raw.githubusercontent.com/aminubalayabo/aminubalayabo.github.io/main/SOBAS/students_results.txt';
 $students = [];
 
 if (file_exists($filename)) {
