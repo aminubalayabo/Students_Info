@@ -1,6 +1,6 @@
 let studentData = [];
 
-fetch('https://raw.githubusercontent.com/aminubalayabo/aminubalayabo.github.io/main/SOBAS/get_student_data.php')
+fetch('get_student_data.php')
     .then(response => response.json())
     .then(data => {
         studentData = data;
