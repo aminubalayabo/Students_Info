@@ -1,6 +1,6 @@
 let studentData = [];
 
-fetch('SOBAS/get_student_data.php')
+fetch('get_student_data.php')
     .then(response => response.json())
     .then(data => {
         studentData = data;
