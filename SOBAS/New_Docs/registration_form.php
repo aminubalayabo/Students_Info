@@ -15,7 +15,7 @@
 </head>
 <body>
     <h2>Student Registration Form</h2>
-    <form action="process_registration.php" method="post">
+    <form action="SOBAS/New_Docs/process_registration.php" method="post">
         <!-- <div class="form-group">
             <label for="serial">Serial Number:</label>
             <input type="text" id="serial" name="serial" required>
