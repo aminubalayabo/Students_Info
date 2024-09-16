@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $file_path = "C:\\xampp\\htdocs\\Student_Information_System\\Students_Profile.txt";
+    $file_path = "SOBAS/New_Docs/Students_Profile.txt";
     // Check if the user already exists
     $existing_data = file_get_contents($file_path);
     $lines = explode("\n", $existing_data);
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // $data = "$username|$password|$name|$department|$level|$session|$phone_number|$email\n";
 
     // Define the file path
-    $file_path = "C:\\xampp\\htdocs\\Student_Information_System\\Students_Profile.txt";
+    $file_path = "SOBAS/New_Docs/Students_Profile.txt";
 
     // Append the data to the file
     if (file_put_contents($file_path, $data, FILE_APPEND | LOCK_EX) !== false) {
