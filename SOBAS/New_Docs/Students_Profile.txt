@@ -1,0 +1,16 @@
+username,Admissionnumber,name,Department,Level,Session,PhoneNumber,email,Cose1code,Cose1title,Cose1units,cose2code,cose2title,cose2units,cose3code,cose3title,cose3units,cose4code,cose4title,cose4units,cose5code,cose5title,cose5units,cose6code,cose6title,cose6units,cose7code,cose7title,cose7units,cose8code,cose8title,cose8units,cose9code,cose9title,cose9units,cose10code,cose10title,cose10units,cose11code,cose11title,cose11units,cose12code,cose12title,cose12units,cose13code,cose13title,cose13units,cose14code,cose14title,cose14units
+aminubala,2310001,Aminu Bala,Biology,100,2019/2020,08035989824,aminubala@gmail.com,bio101,gen bio,3,aminubala,123456
+bala.aminu,kcobra
+aminubala,3764545,,,,,,
+aminubala,23456,aminubala@gmail.com,,,,,
+aminubala|234567|aminubala@gmail.com|||||
+aminubala,23456
+aminubala,4567890,aminubala@gmail.com
+aminubala,0987534,Aminu Bala Yabo
+bala.aminu,kcobra,Aminu Bala Yabo,biology,100,2019/2020,08035989824,aminubala@gmail.com
+bala.aminu,5645678,Aminu Bala Yabo,biology,100,2019/2020,08035989824,aminubala@gmail.com,
+aminubala,my1kcobra,Yakubu,sociology,300,2020/2021,098171551,bandiya.haliru@yahoo.com,
+aminubala,sp3356,Yakubu,sociology,300,2020/2021,098171551,bandiya.haliru@yahoo.com,
+bala.aminu,2105aa,shdamkware,finance,500,2020/2021,098171551,bandiya.haliru@yahoo.com,
+bala.aminu,2310001,shdamkware,finance,500,2020/2021,098171551,bandiya.haliru@yahoo.com,,,
+bala.aminu,admno2310001,shdamkware,finance,500,2020/2021,098171551,bandiya.haliru@yahoo.com,,,
