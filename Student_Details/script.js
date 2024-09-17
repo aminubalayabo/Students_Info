@@ -1,14 +1,29 @@
-// Function to fetch data from GitHub repository (replace with your own fetching logic)
 function fetchData(url, callback) {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
+
+  // Handle authentication if necessary
+  if (url.includes('github.com') && requiresAuthentication) {
+    xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+  }
+
   xhr.onload = function() {
     if (xhr.status === 200) {
-      callback(xhr.responseText);
+      try {
+        const data = JSON.parse(xhr.responseText); // Assuming JSON format
+        callback(data);
+      } catch (error) {
+        console.error('Error parsing data:', error);
+      }
     } else {
-      console.error('Error    fetching data:', xhr.statusText);
+      console.error('Error fetching data:', xhr.statusText);
     }
   };
+
+  xhr.onerror = function() {
+    console.error('Network error:', xhr.statusText);
+  };
+
   xhr.send();
 }
 
