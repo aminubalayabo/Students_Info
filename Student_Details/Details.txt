@@ -1,4 +1,4 @@
-Adm.No.,Name,Department,Course,UNTS,CA,Exam,Session
+AdmNo,Name,Department,Course,UNTS,CA,Exam,Session
 1810414001,Isma’ilaMubarak,ACCOUNTING,ACC101,3,30,42,2018/2019
 1810414002,AhmadGarba,ACCOUNTING,ACC101,3,22,18,2018/2019
 1810414003,AbubakarAminuBala,ACCOUNTING,ACC101,3,14,12,2018/2019
