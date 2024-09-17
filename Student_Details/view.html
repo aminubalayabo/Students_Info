@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Results    Summary</title>
+  <style>
+    /* Add some basic styles for tables and inputs */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+    input[type="text"] {
+      padding: 5px;
+      width: 150px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Results Summary</h1>
+  <div id="search-by-admission">
+    <label for="admissionNumber">Admission Number: </label>
+    <input type="text" id="admissionNumber" placeholder="Enter Admission Number">
+    <button id="searchByAdmission">Search</button>
+  </div>
+  <div id="search-by-department">
+    <label for="department">Department: </label>
+    <select id="department">
+      <option value="">All Departments</option>
+      <option value="Accounting">Accounting</option>
+      <option value="Economics">Economics</option>
+      <option value="Zoology">Zoology</option>
+    </select>
+    <button id="searchByDepartment">Search by Department</button>
+  </div>
+  <div id="results"></div>
+  <!-- <script src="script.js"></script> -->
+   <script>
+ function fetchData(url, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+
+  // Handle authentication if necessary
+  if (url.includes('github.com') && requiresAuthentication) {
+    xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+  }
+
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      try {
+        const data = JSON.parse(xhr.responseText); // Assuming JSON format
+        callback(data);
+      } catch (error) {
+        console.error('Error parsing data:', error);
+      }
+    } else {
+      console.error('Error fetching data:', xhr.statusText);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error('Network error:', xhr.statusText);
+  };
+
+  xhr.send();
+}
+
+// Function to calculate total score, grade, points, GP, etc.
+function calculateStudentResult(data) {
+  const result = { ...data };
+  result.TotalScore = parseInt(data.CAScore) + parseInt(data.ExamsScore);
+  const grade = calculateGrade(result.TotalScore);
+  result.Grade = grade;
+  result.Point = getPoint(grade);
+  result.GradePoint = result.Point * result.CourseUnits;
+  return result;
+}
+
+// Function to calculate grade based on marks
+function calculateGrade(score) {
+  if (score >= 70) {
+    return 'A';
+  } else if (score >= 60) {
+    return 'B';
+  } else if (score >= 50) {
+    return 'C';
+  } else if (score >= 45) {
+    return 'D';
+  } else if (score >= 40) {
+    return 'E';
+  } else {
+    return 'F';   
+  }
+}
+
+// Function to get point based on grade
+function getPoint(grade) {
+  switch (grade) {
+    case 'A':
+      return 5;
+    case 'B':
+      return 4;
+    case 'C':
+      return 3;
+    case 'D':
+      return 2;
+    case 'E':
+      return 1;
+    default:
+      return 0;
+  }
+}
+
+// Function to display student results by admission number
+function displayStudentResults(data, session) {
+  const resultsContainer = document.getElementById('results');
+  resultsContainer.innerHTML = `<h2>${session} Session Results</h2>`;
+  const table = document.createElement('table');
+  const tableHead = document.createElement('thead');
+  const tableRow = document.createElement('tr');   
+
+  tableRow.innerHTML = `
+    <th>AdmissionNumber</th>
+    <th>CourseCode</th>
+    <th>CourseUnits</th>
+    <th>CAScore</th>
+    <th>ExamsScore</th>
+    <th>TotalScore</th>
+    <th>Grade</th>
+    <th>Point</th>
+    <th>GradePoint (GP)</th>
+  `;
+  tableHead.appendChild(tableRow)};
+   </script>
+</body>
+</html>
