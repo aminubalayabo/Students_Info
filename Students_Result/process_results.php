@@ -1,7 +1,4 @@
 <?php
-
-<?php
-
 $results_file = "https://raw.githubusercontent.com/aminubalayabo/Students_Info/master/Students_Result/Results.txt";
 
 // Try to read the file and handle potential errors
