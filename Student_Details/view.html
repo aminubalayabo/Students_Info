@@ -30,11 +30,11 @@
 <input type="text" id="admissionNumber" placeholder="Enter Admission Number">  
 <button onclick="searchByAdmissionNumber()">Search</button>  
 
-<h2>Search by Department</h2>  
+<h2>Filter by Department</h2>  
 <select id="departmentSelect">  
     <option value="">Select Department</option>  
     <option value="ACCOUNTING">Accounting</option>  
-    <option value="ECONOMICS">Economic</option>  
+    <option value="ECONOMICS">Economics</option>  
     <option value="ZOOLOGY">Zoology</option>  
 </select>  
 <button onclick="filterByDepartment()">Filter</button>  
@@ -68,7 +68,7 @@
         const admissionNumber = document.getElementById("admissionNumber").value.trim();  
         if (admissionNumber) {  
             fetchStudentData().then(students => {  
-                const results = students.filter(student => student.AdmissionNumber === admissionNumber);  
+                const results = students.filter(student => student.AdmNo === admissionNumber);  
                 displayResults(results);  
             });  
         }  
@@ -90,7 +90,7 @@
             return;  
         }  
 
-        const groupBySession = results.reduce((acc, student) => {  
+        const groupedResults = results.reduce((acc, student) => {  
             const session = student.Session;  
             if (!acc[session]) {  
                 acc[session] = [];  
@@ -100,40 +100,40 @@
         }, {});  
 
         let output = '';  
-        for (const session in groupBySession) {  
+        for (const session in groupedResults) {  
             output += `<h3>Results for Session: ${session}</h3>`;  
             output += `<table>  
                 <tr>  
                     <th>AdmissionNumber</th>  
-                    <th>CourseCode</th>  
-                    <th>CourseUnits</th>  
-                    <th>CAScore</th>  
-                    <th>ExamsScore</th>  
-                    <th>TotalScore</th>  
-                    <th>Grade</th>  
-                    <th>Point</th>  
-                    <th>GradePoint</th>  
+                    <th>Course</th>  
+                    <th>Units</th>  
+                    <th>CA</th>  
+                    <th>Exam</th>  
+                    <th>Total Score</th>  
+                    <th>Grade</th</th>  
+                    <th>Grade Points</th>  
                 </tr>`;  
 
             let totalUnits = 0;  
             let totalGradePoints = 0;  
+            let totalScoreSum = 0;  
 
-            groupBySession[session].forEach(student => {  
-                const totalScore = parseInt(student.CAScore) + parseInt(student.ExamsScore);  
+            groupedResults[session].forEach(student => {  
+                const totalScore = parseInt(student.CA) + parseInt(student.Exam);  
                 const gradeInfo = getGrade(totalScore);  
-                totalUnits += parseInt(student.CourseUnits);  
-                totalGradePoints += (gradeInfo.point * parseInt(student.CourseUnits));  
 
+                totalUnits += parseInt(student.UNTS);  
+                totalGradePoints += (gradeInfo.point * parseInt(student.UNTS));  
+                totalScoreSum += totalScore;  
                 output += `<tr>  
-                    <td>${student.AdmissionNumber}</td>  
-                    <td>${student.CourseCode}</td>  
-                    <td>${student.CourseUnits}</td>  
-                    <td>${student.CAScore}</td>  
-                    <td>${student.ExamsScore}</td>  
+                    <td>${student.AdmNo}</td>  
+                    <td>${student.Course}</td>  
+                    <td>${student.UNTS}</td>  
+                    <td>${student.CA}</td>  
+                    <td>${student.Exam}</td>  
                     <td>${totalScore}</td>  
                     <td>${gradeInfo.grade}</td>  
-                    <td>${gradeInfo.point}</td>  
-                    <td>${gradeInfo.point * parseInt(student.CourseUnits)}</td>  
+                    <td>${(gradeInfo.point * parseInt(student.UNTS)).toFixed(2)}</td>  
                 </tr>`;  
             });  
 
@@ -150,60 +150,23 @@
             return;  
         }  
 
-        let output = `<table>  
-            <tr>  
-                <th>AdmissionNumber</th>  
-                <th>Name</th>  
-                <th>All Courses Registered</th>  
-                <th>TotalUnits</th>  
-                <th>CGPA</th>  
-            </tr>`;  
+        const groupedById = results.reduce((acc, student) => {  
+            if (!acc[student.AdmNo]) {  
+                acc[student.AdmNo] = {  
+                    Name: student.Name,  
+                    Department: student.Department,  
+                    Courses: [],  
+                    TotalUnits: 0,  
+                    TotalGradePoints: 0,  
+                    TotalScores: 0  
+                };  
+            }  
 
-        results.forEach(student => {  
-            const allCourses = results.map(res => `${res.CourseCode} (${res.CourseUnits}) - ${getGrade(parseInt(res.CAScore) + parseInt(res.ExamsScore)).grade}`).join('<br>');  
-            output += `<tr>  
-                <td>${student.AdmissionNumber}</td>  
-                <td>${student.Name}</td>  
-                <td>${allCourses}</td>  
-                <td>${results.length}</td> <!-- Placeholder for Total Units -->  
-                <td>${(results.reduce((sum, res) => sum + res.CourseUnits, 0) / results.length).toFixed(2)}</td> <!-- Placeholder for CGPA -->  
-            </tr>`;  
-        });  
+            const totalScore = parseInt(student.CA) + parseInt(student.Exam);  
+            const gradeInfo = getGrade(totalScore);  
 
-        output += `</table>`;  
-        document.getElementById('results').innerHTML = output;  
-    }  
-
-    function getGrade(totalScore) {  
-        let grade, point;  
-
-        if (totalScore >= 70) {  
-            grade = 'A';  
-            point = 5;  
-        } else if (totalScore >= 60) {  
-            grade = 'B';  
-            point = 4;  
-        } else if (totalScore >= 50) {  
-            grade = 'C';  
-            point = 3;  
-        } else if (totalScore >= 45) {  
-            grade = 'D';  
-            point = 2;  
-        } else if (totalScore >= 40) {  
-            grade = 'E';  
-            point = 1;  
-        } else {  
-            grade = 'F';  
-            point = 0;  
-        }  
-
-        return { grade, point };  
-    }  
-
-    window.onload = () => {  
-        fetchStudentData(); // Preload data when the page loads  
-    };  
-</script>  
-
-</body>  
-</html>
+            acc[student.AdmNo].Courses.push({  
+                Course: student.Course,  
+                UNTS: student.UNTS,  
+                CA: student.CA,  
+                Exam: student
