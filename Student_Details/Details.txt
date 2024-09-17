@@ -1,4 +1,4 @@
-AdmNo,Name,Department,Course,UNTS,CA,Exam,Session
+AdmNo,Name,Department,Course,UNTIS,CA,Exam,Session
 1810414001,IsmailaMubarak,Accounting,ACC101,3,30,42,2018/2019
 1810414001,ISMAILAMUBARAK,Accounting,BUS103,2,33,37,2018/2019
 1810414001,"ISMAILA,Mubarak",Accounting,BUS104,2,23,33,2018/2019
