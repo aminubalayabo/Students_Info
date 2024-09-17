@@ -1,0 +1,136 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Student Information Summary</title>  
+    <style>  
+        body {  
+            font-family: Arial, sans-serif;  
+            margin: 20px;  
+        }  
+        table {  
+            border-collapse: collapse;  
+            width: 100%;  
+            margin-top: 20px;  
+        }  
+        th, td {  
+            border: 1px solid #ddd;  
+            padding: 8px;  
+            text-align: left;  
+        }  
+        th {  
+            background-color: #f2f2f2;  
+        }  
+    </style>  
+</head>  
+<body>  
+
+<h1>Student Information Summary</h1>  
+
+<h2>Search by Admission Number</h2>  
+<input type="text" id="admissionNumber" placeholder="Enter Admission Number">  
+<button onclick="searchByAdmissionNumber()">Search</button>  
+
+<h2>Filter by Department</h2>  
+<select id="departmentSelect">  
+    <option value="">Select Department</option>  
+    <option value="Accounting">Accounting</option>  
+    <option value="Economics">Economics</option>  
+    <option value="Zoology">Zoology</option>  
+</select>  
+<button onclick="filterByDepartment()">Filter</button>  
+
+<h2>Filter by Session</h2>  
+<select id="sessionSelect">  
+    <option value="">Select Session</option>  
+    <option value="2018/2019">2018/2019</option>  
+    <option value="2020/2021">2020/2021</option>  
+</select>  
+<button onclick="filterBySession()">Filter</button>  
+
+<div id="results"></div>  
+
+<script>  
+    const url = 'https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/Student_Details/profile.txt';  
+
+    async function fetchStudentData() {  
+        const response = await fetch(url);  
+        const data = await response.text();  
+        return parseData(data);  
+    }  
+
+    function parseData(data) {  
+        const lines = data.trim().split('\n');  
+        const header = lines[0].split(',');  
+        const students = lines.slice(1).map(line => {  
+            const values = line.split(',');  
+            const student = {};  
+            header.forEach((h, i) => {  
+                student[h.trim()] = values[i].trim();  
+            });  
+            return student;  
+        });  
+        return students;  
+    }  
+
+    function searchByAdmissionNumber() {  
+        const admissionNumber = document.getElementById("admissionNumber").value.trim();  
+        if (admissionNumber) {  
+            fetchStudentData().then(students => {  
+                const results = students.filter(student => student.AdmissionNumber === admissionNumber);  
+                displayResults(results);  
+            });  
+        }  
+    }  
+
+    function filterByDepartment() {  
+        const department = document.getElementById("departmentSelect").value;  
+        if (department) {  
+            fetchStudentData().then(students => {  
+                const results = students.filter(student => student.Department === department);  
+                displayResults(results);  
+            });  
+        }  
+    }  
+
+    function filterBySession() {  
+        const session = document.getElementById("sessionSelect").value;  
+        if (session) {  
+            fetchStudentData().then(students => {  
+                const results = students.filter(student => student.Session === session);  
+                displayResults(results);  
+            });  
+        }  
+    }  
+
+    function displayResults(results) {  
+        if (results.length === 0) {  
+            document.getElementById('results').innerHTML = 'No results found.';  
+            return;  
+        }  
+
+        let output = `<table>  
+            <tr>  
+                <th>Admission Number</th>  
+                <th>Name</th>  
+                <th>Department</th>  
+                <th>Course Registered</th>  
+            </tr>`;  
+        
+        results.forEach(student => {  
+            output += `<tr>  
+                <td>${student.AdmissionNumber}</td>  
+                <td>${student.Name}</td>  
+                <td>${student.Department}</td>  
+                <td>${student.Course}</td>  
+            </tr>`;  
+        });  
+
+        output += `</table>`;  
+        document.getElementById('results').innerHTML = output;  
+    }  
+</script>  
+
+</body>  
+</html>
