@@ -1,6 +1,21 @@
 <?php
 
+<?php
+
 $results_file = "https://raw.githubusercontent.com/aminubalayabo/Students_Info/master/Students_Result/Results.txt";
+
+// Try to read the file and handle potential errors
+try {
+  $results_data = file_get_contents($results_file);
+  if ($results_data === false) {
+    throw new Exception("Failed to read results file.");
+  }
+} catch (Exception $e) {
+  echo "Error: " . $e->getMessage();
+  exit;
+}
+
+// Rest of the code remains the same...
 $data = [];
 
 // Function to calculate letter grade based on total score
