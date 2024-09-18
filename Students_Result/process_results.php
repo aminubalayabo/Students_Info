@@ -1,6 +1,6 @@
 <?php
 
-$results_file = "C:/xampp/htdocs/Student_Information_System/Gemini docs/Results.txt";
+$results_file = "https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/Student_Details/profile.txt";
 
 // Try to read the file and handle potential errors
 try {
