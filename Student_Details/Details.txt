@@ -1,5 +1,5 @@
 AdmissionNumber,Name,Department,CourseCode,CourseUnits,CAScore,ExamsScore,Session
-1810414001,"Ismaila Mubarak",Accounting,ACC101,3,30,42,2018/2019
+1810414001,'Ismaila Mubarak',Accounting,ACC101,3,30,42,2018/2019
 1810414001,ISMAILAMUBARAK,Accounting,BUS103,2,33,37,2018/2019
 1810414001,ISMAILAMubarak,Accounting,BUS104,2,23,33,2018/2019
 1810414001,IsmailaMubarak,Accounting,ECO201,2,36,35,2020/2021
