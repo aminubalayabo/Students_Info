@@ -124,33 +124,77 @@ function displayResults(results) {
         return;  
     }  
 
-    let output = `<table>  
-        <tr>  
-            <th>Admission Number</th>  
-            <th>Name</th>  
-            <th>Department</th>  
-            <th>Session</th>  
-            <th>All Courses Registered</th>  
-            <th>Total Units</th>  
-            <th>CGPA</th>  
-        </tr>`;  
+const groupByStudent = results.reduce((acc, student) => {  
+        const admissionNumber = student.AdmissionNumber;  
+        if (!acc[admissionNumber]) {  
+            acc[admissionNumber] = {   
+                name: student.Name,   
+                sessions: {}   
+            };  
+        }  
+        const session = student.Session;  
+        if (!acc[admissionNumber].sessions[session]) {  
+            acc[admissionNumber].sessions[session] = [];  
+        }  
+        acc[admissionNumber].sessions[session].push(student);  
+        return acc;  
+    }, {});
 
-    results.forEach(student => {  
-        output += `<tr>  
-            <td>${student.AdmissionNumber}</td>  
-            <td>${student.Name}</td>  
-            <td>${student.Department}</td>  
-            <td>${student.Session}</td>  
-            <td>${student.AllCourses || 'N/A'}</td>  
-            <td>${student.TotalUnits || 'N/A'}</td>  
-            <td>${student.CGPA || 'N/A'}</td>  
-        </tr>`;  
-    });  
+
+
+    
+   let output = `<table>  
+            <tr>  
+                <th>AdmissionNumber</th>  
+                <th>Name</th>  
+                <th>All Courses Registered</th>  
+                <th>TotalUnits</th>  
+                <th>CGPA</th>  
+            </tr>`;  group
+
+        results.forEach(student => {  
+            const allCourses = results.map(res => `${res.CourseCode} (${res.CourseUnits}) - ${getGrade(parseInt(res.CAScore) + parseInt(res.ExamsScore)).grade}`).join('<br>');  
+            output += `<tr>  
+                <td>${student.AdmissionNumber}</td>  
+                <td>${student.Name}</td>  
+                <td>${allCourses}</td>  
+                <td>${results.length}</td> <!-- Placeholder for Total Units -->  
+                <td>${(results.reduce((sum, res) => sum + res.CourseUnits, 0) / results.length).toFixed(2)}</td> <!-- Placeholder for CGPA -->  
+            </tr>`;  
+        });  
+ 
 
     output += `</table>`;  
     document.getElementById('results').innerHTML = output;  
 }  
 
+    function getGrade(totalScore) {  
+        let grade, point;  
+
+        if (totalScore >= 70) {  
+            grade = 'A';  
+            point = 5;  
+        } else if (totalScore >= 60) {  
+            grade = 'B';  
+            point = 4;  
+        } else if (totalScore >= 50) {  
+            grade = 'C';  
+            point = 3;  
+        } else if (totalScore >= 45) {  
+            grade = 'D';  
+            point = 2;  
+        } else if (totalScore >= 40) {  
+            grade = 'E';  
+            point = 1;  
+        } else {  
+            grade = 'F';  
+            point = 0;  
+        }  
+
+        return { grade, point };  
+    }
+
+    
     function downloadCSV() {  
         if (resultsData.length === 0) {  
             alert('No results to download.');  
@@ -159,7 +203,7 @@ function displayResults(results) {
 
         // Create CSV headers  
         const headers = [  
-            'Admission Number',  
+            'AdmissionNumber',  
             'Name',  
             'Department',  
             'Session',  
