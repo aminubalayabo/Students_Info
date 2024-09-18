@@ -1,6 +1,6 @@
 <?php
 
-$results_file = "https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/Student_Details/profile.txt";
+$results_file = "https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/Student_Details/Results.txt";
 
 // Try to read the file and handle potential errors
 try {
