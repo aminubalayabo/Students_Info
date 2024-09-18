@@ -104,38 +104,52 @@
         }  
     }  
 
-    function displayResults(results) {  
-        if (results.length === 0) {  
-            document.getElementById('results').innerHTML = 'No results found.';  
-            return;  
-        }  
-
-        let output = `<table>  
-            <tr>  
-                <th>Admission Number</th>  
-                <th>Name</th>  
-                <th>Department</th>  
-                <th>Session</th>  
-                <th>All Courses Registered</th>  
-                <th>Total Units</th>  
-                <th>CGPA</th>  
-            </tr>`;  
-
-        results.forEach(student => {  
-            output += `<tr>  
-                <td>${student.AdmissionNumber}</td>  
-                <td>${student.Name}</td>  
-                <td>${student.Department}</td>  
-                <td>${student.Session}</td>  
-                <td>${student.AllCourses}</td>  
-                <td>${student.TotalUnits}</td>  
-                <td>${student.CGPA}</td>  
-            </tr>`;  
+    function parseData(data) {  
+    const lines = data.trim().split('\n');  
+    const header = lines[0].split(',');  
+    const students = lines.slice(1).map(line => {  
+        const values = line.split(',');  
+        const student = {};  
+        header.forEach((h, i) => {  
+            student[h.trim()] = values[i].trim();  
         });  
+        return student;  
+    });  
+    return students;  
+}  
 
-        output += `</table>`;  
-        document.getElementById('results').innerHTML = output;  
+function displayResults(results) {  
+    if (results.length === 0) {  
+        document.getElementById('results').innerHTML = 'No results found.';  
+        return;  
     }  
+
+    let output = `<table>  
+        <tr>  
+            <th>Admission Number</th>  
+            <th>Name</th>  
+            <th>Department</th>  
+            <th>Session</th>  
+            <th>All Courses Registered</th>  
+            <th>Total Units</th>  
+            <th>CGPA</th>  
+        </tr>`;  
+
+    results.forEach(student => {  
+        output += `<tr>  
+            <td>${student.AdmissionNumber}</td>  
+            <td>${student.Name}</td>  
+            <td>${student.Department}</td>  
+            <td>${student.Session}</td>  
+            <td>${student.AllCourses || 'N/A'}</td>  
+            <td>${student.TotalUnits || 'N/A'}</td>  
+            <td>${student.CGPA || 'N/A'}</td>  
+        </tr>`;  
+    });  
+
+    output += `</table>`;  
+    document.getElementById('results').innerHTML = output;  
+}  
 
     function downloadCSV() {  
         if (resultsData.length === 0) {  
