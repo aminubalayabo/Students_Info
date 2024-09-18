@@ -145,24 +145,27 @@
 
         // Create CSV headers  
         const headers = [  
-            'AdmissionNumber',  
-            'Name',  
-            'Department',  
-            'Session',  
-            'All Courses Registered',  
-            'Total Units',  
-            'CGPA'  
+            'CourseCode',  
+            'CourseUnits',  
+            'CAScore',  
+            'ExamsScore',  
+            'TotalScore',  
+            'Grade',
+            'Point',
+            'GradePoint'
+
         ];  
         
         // Convert results to CSV format  
         const rows = resultsData.map(student => [  
-            student.AdmissionNumber,  
-            student.Name,  
-            student.Department,  
-            student.Session,  
-            student.AllCourses,  
-            student.TotalUnits,  
-            student.CGPA  
+            student.CourseCode,  
+            student.CourseUnits,  
+            student.CAScore,  
+            student.ExamsScore,  
+            student.TotalScore,  
+            student.Grade,
+            student.Point,
+            student.GradePoint  
         ]);  
 
         // Combine headers and rows  
