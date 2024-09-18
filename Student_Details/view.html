@@ -136,17 +136,17 @@
             let totalUnits = 0;  
             let totalGradePoints = 0;  
 
-            groupBySession[session].forEach(student => {  
-                const totalScore = parseInt(student.CAScore) + parseInt(student.ExamsScore);  
-                const gradeInfo = getGrade(totalScore);  
-                totalUnits += parseInt(student.CourseUnits);  
-                totalGradePoints += (gradeInfo.point * parseInt(student.CourseUnits));  
-
-            // BySession[session].forEach(student => {  
+            // groupBySession[session].forEach(student => {  
             //     const totalScore = parseInt(student.CAScore) + parseInt(student.ExamsScore);  
             //     const gradeInfo = getGrade(totalScore);  
             //     totalUnits += parseInt(student.CourseUnits);  
-            //     totalGradePoints += (gradeInfo.point * parseInt(student.CourseUnits));
+            //     totalGradePoints += (gradeInfo.point * parseInt(student.CourseUnits));  
+
+            BySession[session].forEach(student => {  
+                const totalScore = parseInt(student.CAScore) + parseInt(student.ExamsScore);  
+                const gradeInfo = getGrade(totalScore);  
+                totalUnits += parseInt(student.CourseUnits);  
+                totalGradePoints += (gradeInfo.point * parseInt(student.CourseUnits));
                
                 output += `<tr>  
                     <td>${student.AdmissionNumber}</td>  
@@ -181,7 +181,7 @@
                 <th>All Courses Registered</th>  
                 <th>TotalUnits</th>  
                 <th>CGPA</th>  
-            </tr>`;  
+            </tr>`;  group
 
         results.forEach(student => {  
             const allCourses = results.map(res => `${res.CourseCode} (${res.CourseUnits}) - ${getGrade(parseInt(res.CAScore) + parseInt(res.ExamsScore)).grade}`).join('<br>');  
