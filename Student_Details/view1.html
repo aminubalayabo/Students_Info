@@ -113,23 +113,27 @@
         let output = `<table>  
             <tr>  
                 <th>Admission Number</th>  
-                <th>Name</th>  
-                <th>Department</th>  
-                <th>Session</th>  
                 <th>CourseCode</th>  
-                <th>CourseUnitsUnits</th>  
+                <th>CourseUnits</th>  
                 <th>CAScore</th>  
+                <th>ExamsScore</th>  
+                <th>TotalScore</th>  
+                <th>Grade</th>
+                <th>Point</th>
+                <th>GradePoint</th>
             </tr>`;  
 
         results.forEach(student => {  
             output += `<tr>  
                 <td>${student.AdmissionNumber}</td>  
-                <td>${student.Name}</td>  
-                <td>${student.Department}</td>  
-                <td>${student.Session}</td>  
                 <td>${student.CourseCode}</td>  
-                <td>${student.CourseUnitsUnits}</td>  
+                <td>${student.CourseUnits}</td>  
                 <td>${student.CAScore}</td>  
+                <td>${student.ExamsScore}</td>  
+                <td>${student.TotalScore}</td>  
+                <td>${student.Grade}</td>
+                <td>${student.Point}</td>
+                <td>${student.GradePoint}</td>
             </tr>`;  
         });  
 
@@ -145,24 +149,28 @@
 
         // Create CSV headers  
         const headers = [  
-            'Admission Number',  
-            'Name',  
-            'Department',  
-            'Session',  
+            'AdmissionNumber',  
             'CourseCode',  
             'CourseUnits',  
-            'CAScore'  
+            'CAScore',  
+            'ExamsScore',  
+            'TotalScore',
+            'Grade',
+            'Point',
+            'GradePoint'
         ];  
         
         // Convert results to CSV format  
         const rows = resultsData.map(student => [  
             student.AdmissionNumber,  
-            student.Name,  
-            student.Department,  
-            student.Session,  
             student.CourseCode,  
             student.CourseUnits,  
-            student.CAScore  
+            student.CAScore,  
+            student.ExamsScore,  
+            student.TotalScore,
+            student.Grade,
+            student.Point,
+            student.GradePoint  
         ]);  
 
         // Combine headers and rows  
