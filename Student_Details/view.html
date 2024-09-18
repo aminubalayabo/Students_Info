@@ -39,6 +39,14 @@
 </select>  
 <button onclick="filterByDepartment()">Filter</button>  
 
+<h2>Filter by Session</h2>  
+<select id="sessionSelect">  
+    <option value="">Select Session</option>  
+    <option value="2018/2019">2018/2019</option>  
+    <option value="2020/2021">2020/2021</option>  
+</select>  
+<button onclick="filterBySession()">Search by Session</button>  
+
 <div id="results"></div>  
 
 <script>  
@@ -79,7 +87,17 @@
         if (department) {  
             fetchStudentData().then(students => {  
                 const results = students.filter(student => student.Department === department);  
-                displayDepartmentResults(results);  
+                displayResults(results);  
+            });  
+        }  
+    }  
+
+    function filterBySession() {  
+        const session = document.getElementById("sessionSelect").value;  
+        if (session) {  
+            fetchStudentData().then(students => {  
+                const results = students.filter(student => student.Session === session);  
+                displayResults(results);  
             });  
         }  
     }  
@@ -124,7 +142,7 @@
                 totalUnits += parseInt(student.CourseUnits);  
                 totalGradePoints += (gradeInfo.point * parseInt(student.CourseUnits));  
 
-                output += `<tr>  
+               output += `<tr>  
                     <td>${student.AdmissionNumber}</td>  
                     <td>${student.CourseCode}</td>  
                     <td>${student.CourseUnits}</td>  
