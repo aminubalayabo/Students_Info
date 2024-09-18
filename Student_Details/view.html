@@ -216,15 +216,17 @@ function displayResults(results) {
         });  
 
         output += `<tr>  
-            <td colspan="8" style="text-align: right;">Total Units:</td>  
-            <td>${totalUnitsOverall}</td>  
-        </tr>`;  
-        output += `<tr>  
-            <td colspan="8" style="text-align: right;">CGPA:</td>  
-            <td>${cumulativeGPA}</td>  
-        </tr>`;  
+        // <td colspan="7" style="text-align: right;">Total Units: ${totalUnits} | GPA: ${gpa}</td>
+        <td colspan="8" style="text-align: right;">Total Units: ${totalUnitsOverall} | CGPA: ${cumulativeGPA}</td>
+        //     <td colspan="8" style="text-align: right;">Total Units:</td>  
+        //     <td>${totalUnitsOverall}</td>  
+        // </tr>`;  
+        // output += `<tr>  
+        //     <td colspan="8" style="text-align: right;">CGPA:</td>  
+        //     <td>${cumulativeGPA}</td>  
+        // </tr>`;  
 
-        output += `</table>`;  
+        // output += `</table>`;  
     }  
 
     document.getElementById('results').innerHTML = output;  
