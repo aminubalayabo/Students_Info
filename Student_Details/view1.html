@@ -84,51 +84,15 @@
         }  
     }  
 
-    function displayDepartmentResults(results) {  
-    if (results.length === 0) {  
-        document.getElementById('results').innerHTML = 'No results found for this department.';  
-        return;  
+    function filterByDepartment() {  
+        const department = document.getElementById("departmentSelect").value;  
+        if (department) {  
+            fetchStudentData().then(students => {  
+                resultsData = students.filter(student => student.Department === department);  
+                displayResults(resultsData);  
+            });  
+        }  
     }  
-
-    let output = `<table>  
-        <tr>  
-            <th>Admission Number</th>  
-            <th>Name</th>  
-            <th>All Courses Registered</th>  
-            <th>Total Units</th>  
-            <th>CGPA</th>  
-        </tr>`;  
-
-    results.forEach(student => {  
-        const allCourses = student.sessions ? Object.values(student.sessions).flat().map(res => `${res.CourseCode} (${res.CourseUnits}) - ${getGrade(parseInt(res.CAScore) + parseInt(res.ExamsScore)).grade}`).join('<br>') : 'N/A';  
-        
-        const totalUnits = student.sessions ? Object.values(student.sessions).flat().reduce((sum, res) => sum + parseInt(res.CourseUnits), 0) : 0;  
-        const totalGradePoints = student.sessions ? Object.values(student.sessions).flat().reduce((sum, res) => sum + (getGrade(parseInt(res.CAScore) + parseInt(res.ExamsScore)).point * parseInt(res.CourseUnits)), 0) : 0;  
-        const cgpa = totalUnits > 0 ? (totalGradePoints / totalUnits).toFixed(2) : 0;  
-
-        output += `<tr>  
-            <td>${student.AdmissionNumber}</td>  
-            <td>${student.Name}</td>  
-            <td>${allCourses}</td>  
-            <td>${totalUnits}</td>  
-            <td>${cgpa}</td>  
-        </tr>`;  
-    });  
-
-    output += `</table>`;  
-    document.getElementById('results').innerHTML = output;  
-}
-    
-    
-    // function filterByDepartment() {  
-    //     const department = document.getElementById("departmentSelect").value;  
-    //     if (department) {  
-    //         fetchStudentData().then(students => {  
-    //             resultsData = students.filter(student => student.Department === department);  
-    //             displayResults(resultsData);  
-    //         });  
-    //     }  
-    // }  
 
     function filterBySession() {  
         const session = document.getElementById("sessionSelect").value;  
@@ -140,48 +104,36 @@
         }  
     }  
 
-
-
-    
     function displayResults(results) {  
         if (results.length === 0) {  
             document.getElementById('results').innerHTML = 'No results found.';  
             return;  
         }  
 
-        
         let output = `<table>  
             <tr>  
                 <th>Admission Number</th>  
-                <th>CourseCode</th>  
-                <th>CourseUnits</th>  
-                <th>CAScore</th>  
-                <th>ExamsScore</th>  
-                <th>TotalScore</th>  
-                <th>Grade</th>
-                <th>Point</th>
-                <th>GradePoint</th>
+                <th>Name</th>  
+                <th>Department</th>  
+                <th>Session</th>  
+                <th>All Courses Registered</th>  
+                <th>Total Units</th>  
+                <th>CGPA</th>  
             </tr>`;  
 
-
-
-
-        
         results.forEach(student => {  
             output += `<tr>  
                 <td>${student.AdmissionNumber}</td>  
-                <td>${student.CourseCode}</td>  
-                <td>${student.CourseUnits}</td>  
-                <td>${student.CAScore}</td>  
-                <td>${student.ExamsScore}</td>  
-                <td>${student.TotalScore}</td>  
-                <td>${student.Grade}</td>
-                <td>${student.Point}</td>
-                <td>${student.GradePoint}</td>
+                <td>${student.Name}</td>  
+                <td>${student.Department}</td>  
+                <td>${student.Session}</td>  
+                <td>${student.AllCourses}</td>  
+                <td>${student.TotalUnits}</td>  
+                <td>${student.CGPA}</td>  
             </tr>`;  
         });  
 
-        output += `</table>`; 
+        output += `</table>`;  
         document.getElementById('results').innerHTML = output;  
     }  
 
@@ -193,28 +145,24 @@
 
         // Create CSV headers  
         const headers = [  
-            'AdmissionNumber',  
-            'CourseCode',  
-            'CourseUnits',  
-            'CAScore',  
-            'ExamsScore',  
-            'TotalScore',
-            'Grade',
-            'Point',
-            'GradePoint'
+            'Admission Number',  
+            'Name',  
+            'Department',  
+            'Session',  
+            'All Courses Registered',  
+            'Total Units',  
+            'CGPA'  
         ];  
         
         // Convert results to CSV format  
         const rows = resultsData.map(student => [  
             student.AdmissionNumber,  
-            student.CourseCode,  
-            student.CourseUnits,  
-            student.CAScore,  
-            student.ExamsScore,  
-            student.TotalScore,
-            student.Grade,
-            student.Point,
-            student.GradePoint  
+            student.Name,  
+            student.Department,  
+            student.Session,  
+            student.AllCourses,  
+            student.TotalUnits,  
+            student.CGPA  
         ]);  
 
         // Combine headers and rows  
@@ -233,32 +181,6 @@
         document.body.removeChild(link);  
     }  
 
-function getGrade(totalScore) {  
-        let grade, point;  
-
-        if (totalScore >= 70) {  
-            grade = 'A';  
-            point = 5;  
-        } else if (totalScore >= 60) {  
-            grade = 'B';  
-            point = 4;  
-        } else if (totalScore >= 50) {  
-            grade = 'C';  
-            point = 3;  
-        } else if (totalScore >= 45) {  
-            grade = 'D';  
-            point = 2;  
-        } else if (totalScore >= 40) {  
-            grade = 'E';  
-            point = 1;  
-        } else {  
-            grade = 'F';  
-            point = 0;  
-        }  
-
-        return { grade, point };  
-    }  
-    
     window.onload = () => {  
         fetchStudentData(); // Preload data when the page loads  
     };  
