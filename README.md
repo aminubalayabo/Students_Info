@@ -14,3 +14,4 @@
   #SOBAS
   - [Result view](Student_Details/view.html)
   - [Profile view](Student_Details/profile.html)
+  - [ViewResulttral](Student_Resultss/profile.html)
