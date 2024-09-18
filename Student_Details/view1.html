@@ -84,15 +84,51 @@
         }  
     }  
 
-    function filterByDepartment() {  
-        const department = document.getElementById("departmentSelect").value;  
-        if (department) {  
-            fetchStudentData().then(students => {  
-                resultsData = students.filter(student => student.Department === department);  
-                displayResults(resultsData);  
-            });  
-        }  
+    function displayDepartmentResults(results) {  
+    if (results.length === 0) {  
+        document.getElementById('results').innerHTML = 'No results found for this department.';  
+        return;  
     }  
+
+    let output = `<table>  
+        <tr>  
+            <th>Admission Number</th>  
+            <th>Name</th>  
+            <th>All Courses Registered</th>  
+            <th>Total Units</th>  
+            <th>CGPA</th>  
+        </tr>`;  
+
+    results.forEach(student => {  
+        const allCourses = student.sessions ? Object.values(student.sessions).flat().map(res => `${res.CourseCode} (${res.CourseUnits}) - ${getGrade(parseInt(res.CAScore) + parseInt(res.ExamsScore)).grade}`).join('<br>') : 'N/A';  
+        
+        const totalUnits = student.sessions ? Object.values(student.sessions).flat().reduce((sum, res) => sum + parseInt(res.CourseUnits), 0) : 0;  
+        const totalGradePoints = student.sessions ? Object.values(student.sessions).flat().reduce((sum, res) => sum + (getGrade(parseInt(res.CAScore) + parseInt(res.ExamsScore)).point * parseInt(res.CourseUnits)), 0) : 0;  
+        const cgpa = totalUnits > 0 ? (totalGradePoints / totalUnits).toFixed(2) : 0;  
+
+        output += `<tr>  
+            <td>${student.AdmissionNumber}</td>  
+            <td>${student.Name}</td>  
+            <td>${allCourses}</td>  
+            <td>${totalUnits}</td>  
+            <td>${cgpa}</td>  
+        </tr>`;  
+    });  
+
+    output += `</table>`;  
+    document.getElementById('results').innerHTML = output;  
+}
+    
+    
+    // function filterByDepartment() {  
+    //     const department = document.getElementById("departmentSelect").value;  
+    //     if (department) {  
+    //         fetchStudentData().then(students => {  
+    //             resultsData = students.filter(student => student.Department === department);  
+    //             displayResults(resultsData);  
+    //         });  
+    //     }  
+    // }  
 
     function filterBySession() {  
         const session = document.getElementById("sessionSelect").value;  
@@ -112,16 +148,6 @@
             document.getElementById('results').innerHTML = 'No results found.';  
             return;  
         }  
-
-let totalUnits = 0;  
-            let totalGradePoints = 0;  
-
-            student.sessions[session].forEach(course => {  
-                const totalScore = parseInt(course.CAScore) + parseInt(course.ExamsScore);  
-                const gradeInfo = getGrade(totalScore);  
-                totalUnits += parseInt(course.CourseUnits);  
-                const gradePoint = gradeInfo.point * parseInt(course.CourseUnits);  
-                totalGradePoints += gradePoint;
 
         
         let output = `<table>  
