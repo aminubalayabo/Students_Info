@@ -112,14 +112,13 @@
 
         let output = `<table>  
             <tr>  
-                <th>CourseCode</th>  
-                <th>CourseUnits</th>  
-                <th>CAScore</th>  
-                <th>ExamsScore</th>  
-                <th>TotalScore</th>  
-                <th>Grade</th>
-                <th>Point</th>
-                <th>GradePoint</th>  
+                <th>Admission Number</th>  
+                <th>Name</th>  
+                <th>Department</th>  
+                <th>Session</th>  
+                <th>All Courses Registered</th>  
+                <th>Total Units</th>  
+                <th>CGPA</th>  
             </tr>`;  
 
         results.forEach(student => {  
@@ -146,27 +145,24 @@
 
         // Create CSV headers  
         const headers = [  
-            'CourseCode',  
-            'CourseUnits',  
-            'CAScore',  
-            'ExamsScore',  
-            'TotalScore',  
-            'Grade',
-            'Point',
-            'GradePoint'
-
+            'Admission Number',  
+            'Name',  
+            'Department',  
+            'Session',  
+            'All Courses Registered',  
+            'Total Units',  
+            'CGPA'  
         ];  
         
         // Convert results to CSV format  
         const rows = resultsData.map(student => [  
-            student.CourseCode,  
-            student.CourseUnits,  
-            student.CAScore,  
-            student.ExamsScore,  
-            student.TotalScore,  
-            student.Grade,
-            student.Point,
-            student.GradePoint  
+            student.AdmissionNumber,  
+            student.Name,  
+            student.Department,  
+            student.Session,  
+            student.AllCourses,  
+            student.TotalUnits,  
+            student.CGPA  
         ]);  
 
         // Combine headers and rows  
