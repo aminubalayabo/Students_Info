@@ -52,6 +52,7 @@
 
 <script>  
     const url = 'https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/Student_Details/Details.txt';  
+    let resultsData = []; // Variable to store fetched results  
 
     async function fetchStudentData() {  
         const response = await fetch(url);  
@@ -77,8 +78,8 @@
         const admissionNumber = document.getElementById("admissionNumber").value.trim();  
         if (admissionNumber) {  
             fetchStudentData().then(students => {  
-                const results = students.filter(student => student.AdmissionNumber === admissionNumber);  
-                displayResults(results);  
+                resultsData = students.filter(student => student.AdmissionNumber === admissionNumber);  
+                displayResults(resultsData);  
             });  
         }  
     }  
@@ -87,8 +88,8 @@
         const department = document.getElementById("departmentSelect").value;  
         if (department) {  
             fetchStudentData().then(students => {  
-                const results = students.filter(student => student.Department === department);  
-                displayResults(results);  
+                resultsData = students.filter(student => student.Department === department);  
+                displayResults(resultsData);  
             });  
         }  
     }  
@@ -97,8 +98,8 @@
         const session = document.getElementById("sessionSelect").value;  
         if (session) {  
             fetchStudentData().then(students => {  
-                const results = students.filter(student => student.Session === session);  
-                displayResults(results);  
+                resultsData = students.filter(student => student.Session === session);  
+                displayResults(resultsData);  
             });  
         }  
     }  
@@ -109,157 +110,26 @@
             return;  
         }  
 
-        const groupByStudent = results.reduce((acc, student) => {  
-            const admissionNumber = student.AdmissionNumber;  
-            if (!acc[admissionNumber]) {  
-                acc[admissionNumber] = {   
-                    name: student.Name,   
-                    sessions: {}   
-                };  
-            }  
-            const session = student.Session;  
-        if (!acc[admissionNumber].sessions[session]) {  
-            acc[admissionNumber].sessions[session] = [];  
-        }  
-        acc[admissionNumber].sessions[session].push(student);  
-        return acc;  
-    }, {});  
-
-    let output = '';  
-    for (const admissionNumber in groupByStudent) {  
-        const student = groupByStudent[admissionNumber];  
-        output += `<h3>Admission Number: ${admissionNumber}, Name: ${student.name}</h3>`;  
-
-        let totalUnitsOverall = 0;  
-        let totalGradePointsOverall = 0;  
-        let cumulativeCourses = [];  // To hold courses from both sessions  
-
-        for (const session in student.sessions) {  
-            output += `<h4>Results for Session: ${session}</h4>`;  
-            output += `<table>  
-                <tr>  
-                    <th>CourseCode</th>  
-                    <th>CourseUnits</th>  
-                    <th>CAScore</th>  
-                    <th>ExamsScore</th>  
-                    <th>TotalScore</th>  
-                    <th>Grade</th>  
-                    <th>Point</th>  
-                    <th>GradePoint</th>  
-                </tr>`;  
-
-            let totalUnits = 0;  
-            let totalGradePoints = 0;  
-
-            student.sessions[session].forEach(course => {  
-                const totalScore = parseInt(course.CAScore) + parseInt(course.ExamsScore);  
-                const gradeInfo = getGrade(totalScore);  
-                totalUnits += parseInt(course.CourseUnits);  
-                const gradePoint = gradeInfo.point * parseInt(course.CourseUnits);  
-                totalGradePoints += gradePoint;  
-
-                output += `<tr>  
-                    <td>${course.CourseCode}</td>  
-                    <td>${course.CourseUnits}</td>  
-                    <td>${course.CAScore}</td>  
-                    <td>${course.ExamsScore}</td>  
-                    <td>${totalScore}</td>  
-                    <td>${gradeInfo.grade}</td>  
-                    <td>${gradeInfo.point}</td>  
-                    <td>${gradePoint}</td>  
-                </tr>`;  
-
-                cumulativeCourses.push(course);  // Collect courses for cumulative summary  
-            });  
-
-            totalUnitsOverall += totalUnits;  
-            totalGradePointsOverall += totalGradePoints;  
-
-            const gpa = totalUnits > 0 ? (totalGradePoints / totalUnits).toFixed(2) : 0;  
-            output += `<tr>  
-                        <td colspan="7" style="text-align: right;">Total Units: ${totalUnits} | GPA: ${gpa}</td>  
-                    </tr>`;  
-            output += `</table>`;  
-        }  
-
-        const cumulativeGPA = totalUnitsOverall > 0 ? (totalGradePointsOverall / totalUnitsOverall).toFixed(2) : 0;  
-        output += `<h4>Cumulative Summary</h4>`;  
-        output += `<table>  
+        let output = `<table>  
             <tr>  
-                <th>CourseCode</th>  
-                <th>CourseUnits</th>  
-                <th>CAScore</th>  
-                <th>ExamsScore</th>  
-                <th>TotalScore</th>  
-                <th>Grade</th>  
-                <th>Point</th>  
-                <th>GradePoint</th>  
+                <th>Admission Number</th>  
+                <th>Name</th>  
+                <th>Department</th>  
+                <th>Session</th>  
+                <th>All Courses Registered</th>  
                 <th>Total Units</th>  
                 <th>CGPA</th>  
             </tr>`;  
-        
-        cumulativeCourses.forEach(course => {  
-            const totalScore = parseInt(course.CAScore) + parseInt(course.ExamsScore);  
-            const gradeInfo = getGrade(totalScore);  
-            const gradePoint = gradeInfo.point * parseInt(course.CourseUnits);  
-
-            output += `<tr>  
-                <td>${course.CourseCode}</td>  
-                <td>${course.CourseUnits}</td>  
-                <td>${course.CAScore}</td>  
-                <td>${course.ExamsScore}</td>  
-                <td>${totalScore}</td>  
-                <td>${gradeInfo.grade}</td>  
-                <td>${gradeInfo.point}</td>  
-                <td>${gradePoint}</td>  
-            </tr>`;  
-        });  
-
-        output += `<tr>  
-        
-        <td colspan="10" style="text-align: right;">Total Units: ${totalUnitsOverall} | CGPA: ${cumulativeGPA}</td>
-          
-        </tr>`;  
-        //     <td colspan="8" style="text-align: right;">Total Units:</td>  
-        //     <td>${totalUnitsOverall}</td>
-        
-        
-        
-        
-        // output += `<tr>  
-        //     <td colspan="8" style="text-align: right;">CGPA:</td>  
-        //     <td>${cumulativeGPA}</td>  
-        // </tr>`;  
-
-         output += `</table>`;  
-    }  
-
-    document.getElementById('results').innerHTML = output;  
-}
-    
-    function displayDepartmentResults(results) {  
-        if (results.length === 0) {  
-            document.getElementById('results').innerHTML = 'No results found for this department.';  
-            return;  
-        }  
-
-        let output = `<table>  
-            <tr>  
-                <th>AdmissionNumber</th>  
-                <th>Name</th>  
-                <th>All Courses Registered</th>  
-                <th>TotalUnits</th>  
-                <th>CGPA</th>  
-            </tr>`;  group
 
         results.forEach(student => {  
-            const allCourses = results.map(res => `${res.CourseCode} (${res.CourseUnits}) - ${getGrade(parseInt(res.CAScore) + parseInt(res.ExamsScore)).grade}`).join('<br>');  
             output += `<tr>  
                 <td>${student.AdmissionNumber}</td>  
                 <td>${student.Name}</td>  
-                <td>${allCourses}</td>  
-                <td>${results.length}</td> <!-- Placeholder for Total Units -->  
-                <td>${(results.reduce((sum, res) => sum + res.CourseUnits, 0) / results.length).toFixed(2)}</td> <!-- Placeholder for CGPA -->  
+                <td>${student.Department}</td>  
+                <td>${student.Session}</td>  
+                <td>${student.AllCourses}</td>  
+                <td>${student.TotalUnits}</td>  
+                <td>${student.CGPA}</td>  
             </tr>`;  
         });  
 
@@ -267,30 +137,48 @@
         document.getElementById('results').innerHTML = output;  
     }  
 
-    function getGrade(totalScore) {  
-        let grade, point;  
-
-        if (totalScore >= 70) {  
-            grade = 'A';  
-            point = 5;  
-        } else if (totalScore >= 60) {  
-            grade = 'B';  
-            point = 4;  
-        } else if (totalScore >= 50) {  
-            grade = 'C';  
-            point = 3;  
-        } else if (totalScore >= 45) {  
-            grade = 'D';  
-            point = 2;  
-        } else if (totalScore >= 40) {  
-            grade = 'E';  
-            point = 1;  
-        } else {  
-            grade = 'F';  
-            point = 0;  
+    function downloadCSV() {  
+        if (resultsData.length === 0) {  
+            alert('No results to download.');  
+            return;  
         }  
 
-        return { grade, point };  
+        // Create CSV headers  
+        const headers = [  
+            'Admission Number',  
+            'Name',  
+            'Department',  
+            'Session',  
+            'All Courses Registered',  
+            'Total Units',  
+            'CGPA'  
+        ];  
+        
+        // Convert results to CSV format  
+        const rows = resultsData.map(student => [  
+            student.AdmissionNumber,  
+            student.Name,  
+            student.Department,  
+            student.Session,  
+            student.AllCourses,  
+            student.TotalUnits,  
+            student.CGPA  
+        ]);  
+
+        // Combine headers and rows  
+        const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");  
+        
+        // Create a blob for the CSV content  
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });  
+        const url = URL.createObjectURL(blob);  
+        
+        // Create a link to download the CSV  
+        const link = document.createElement("a");  
+        link.setAttribute("href", url);  
+        link.setAttribute("download", "student_results.csv");  
+        document.body.appendChild(link);  
+        link.click();  
+        document.body.removeChild(link);  
     }  
 
     window.onload = () => {  
