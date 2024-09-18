@@ -116,9 +116,9 @@
                 <th>Name</th>  
                 <th>Department</th>  
                 <th>Session</th>  
-                <th>All Courses Registered</th>  
-                <th>Total Units</th>  
-                <th>CGPA</th>  
+                <th>CourseCode</th>  
+                <th>CourseUnitsUnits</th>  
+                <th>CAScore</th>  
             </tr>`;  
 
         results.forEach(student => {  
@@ -127,9 +127,9 @@
                 <td>${student.Name}</td>  
                 <td>${student.Department}</td>  
                 <td>${student.Session}</td>  
-                <td>${student.AllCourses}</td>  
-                <td>${student.TotalUnits}</td>  
-                <td>${student.CGPA}</td>  
+                <td>${student.CourseCode}</td>  
+                <td>${student.CourseUnitsUnits}</td>  
+                <td>${student.CAScore}</td>  
             </tr>`;  
         });  
 
@@ -149,9 +149,9 @@
             'Name',  
             'Department',  
             'Session',  
-            'All Courses Registered',  
-            'Total Units',  
-            'CGPA'  
+            'CourseCode',  
+            'CourseUnits',  
+            'CAScore'  
         ];  
         
         // Convert results to CSV format  
@@ -160,9 +160,9 @@
             student.Name,  
             student.Department,  
             student.Session,  
-            student.AllCourses,  
-            student.TotalUnits,  
-            student.CGPA  
+            student.CourseCode,  
+            student.CourseUnits,  
+            student.CAScore  
         ]);  
 
         // Combine headers and rows  
