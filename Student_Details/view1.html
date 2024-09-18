@@ -112,24 +112,25 @@
 
         let output = `<table>  
             <tr>  
-                <th>Admission Number</th>  
-                <th>Name</th>  
-                <th>Department</th>  
-                <th>Session</th>  
-                <th>AllCourses</th>  
-                <th>TotalUnits</th>  
-                <th>CGPA</th>  
+                <th>CourseUnits</th>  
+                    <th>CAScore</th>  
+                    <th>ExamsScore</th>  
+                    <th>TotalScore</th>  
+                    <th>Grade</th>  
+                    <th>Point</th>  
+                    <th>GradePoint</th> 
             </tr>`;  
 
         results.forEach(student => {  
             output += `<tr>  
-                <td>${student.AdmissionNumber}</td>  
-                <td>${student.Name}</td>  
-                <td>${student.Department}</td>  
-                <td>${student.Session}</td>  
-                <td>${student.AllCourses}</td>  
-                <td>${student.TotalUnits}</td>  
-                <td>${student.CGPA}</td>  
+                <td>${course.CourseCode}</td>  
+                        <td>${course.CourseUnits}</td>  
+                        <td>${course.CAScore}</td>  
+                        <td>${course.ExamsScore}</td>  
+                        <td>${totalScore}</td>  
+                        <td>${gradeInfo.grade}</td>  
+                        <td>${gradeInfo.point}</td>  
+                        <td>${gradePoint}</td> 
             </tr>`;  
         });  
 
@@ -145,12 +146,12 @@
 
         // Create CSV headers  
         const headers = [  
-            'Admission Number',  
+            'AdmissionNumber',  
             'Name',  
             'Department',  
             'Session',  
-            'All Courses Registered',  
-            'Total Units',  
+            'AllCourses',  
+            'TotalUnits',  
             'CGPA'  
         ];  
         
