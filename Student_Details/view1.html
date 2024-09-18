@@ -194,6 +194,32 @@
         document.body.removeChild(link);  
     }  
 
+function getGrade(totalScore) {  
+        let grade, point;  
+
+        if (totalScore >= 70) {  
+            grade = 'A';  
+            point = 5;  
+        } else if (totalScore >= 60) {  
+            grade = 'B';  
+            point = 4;  
+        } else if (totalScore >= 50) {  
+            grade = 'C';  
+            point = 3;  
+        } else if (totalScore >= 45) {  
+            grade = 'D';  
+            point = 2;  
+        } else if (totalScore >= 40) {  
+            grade = 'E';  
+            point = 1;  
+        } else {  
+            grade = 'F';  
+            point = 0;  
+        }  
+
+        return { grade, point };  
+    }  
+    
     window.onload = () => {  
         fetchStudentData(); // Preload data when the page loads  
     };  
