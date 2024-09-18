@@ -104,97 +104,39 @@
         }  
     }  
 
-    function parseData(data) {  
-    const lines = data.trim().split('\n');  
-    const header = lines[0].split(',');  
-    const students = lines.slice(1).map(line => {  
-        const values = line.split(',');  
-        const student = {};  
-        header.forEach((h, i) => {  
-            student[h.trim()] = values[i].trim();  
-        });  
-        return student;  
-    });  
-    return students;  
-}  
-
-function displayResults(results) {  
-    if (results.length === 0) {  
-        document.getElementById('results').innerHTML = 'No results found.';  
-        return;  
-    }  
-
-const groupByStudent = results.reduce((acc, student) => {  
-        const admissionNumber = student.AdmissionNumber;  
-        if (!acc[admissionNumber]) {  
-            acc[admissionNumber] = {   
-                name: student.Name,   
-                sessions: {}   
-            };  
+    function displayResults(results) {  
+        if (results.length === 0) {  
+            document.getElementById('results').innerHTML = 'No results found.';  
+            return;  
         }  
-        const session = student.Session;  
-        if (!acc[admissionNumber].sessions[session]) {  
-            acc[admissionNumber].sessions[session] = [];  
-        }  
-        acc[admissionNumber].sessions[session].push(student);  
-        return acc;  
-    }, {});
 
-
-
-    
-   let output = `<table>  
+        let output = `<table>  
             <tr>  
-                <th>AdmissionNumber</th>  
+                <th>Admission Number</th>  
                 <th>Name</th>  
+                <th>Department</th>  
+                <th>Session</th>  
                 <th>All Courses Registered</th>  
-                <th>TotalUnits</th>  
+                <th>Total Units</th>  
                 <th>CGPA</th>  
-            </tr>`;  group
+            </tr>`;  
 
         results.forEach(student => {  
-            const allCourses = results.map(res => `${res.CourseCode} (${res.CourseUnits}) - ${getGrade(parseInt(res.CAScore) + parseInt(res.ExamsScore)).grade}`).join('<br>');  
             output += `<tr>  
                 <td>${student.AdmissionNumber}</td>  
                 <td>${student.Name}</td>  
-                <td>${allCourses}</td>  
-                <td>${results.length}</td> <!-- Placeholder for Total Units -->  
-                <td>${(results.reduce((sum, res) => sum + res.CourseUnits, 0) / results.length).toFixed(2)}</td> <!-- Placeholder for CGPA -->  
+                <td>${student.Department}</td>  
+                <td>${student.Session}</td>  
+                <td>${student.AllCourses}</td>  
+                <td>${student.TotalUnits}</td>  
+                <td>${student.CGPA}</td>  
             </tr>`;  
         });  
- 
 
-    output += `</table>`;  
-    document.getElementById('results').innerHTML = output;  
-}  
+        output += `</table>`;  
+        document.getElementById('results').innerHTML = output;  
+    }  
 
-    function getGrade(totalScore) {  
-        let grade, point;  
-
-        if (totalScore >= 70) {  
-            grade = 'A';  
-            point = 5;  
-        } else if (totalScore >= 60) {  
-            grade = 'B';  
-            point = 4;  
-        } else if (totalScore >= 50) {  
-            grade = 'C';  
-            point = 3;  
-        } else if (totalScore >= 45) {  
-            grade = 'D';  
-            point = 2;  
-        } else if (totalScore >= 40) {  
-            grade = 'E';  
-            point = 1;  
-        } else {  
-            grade = 'F';  
-            point = 0;  
-        }  
-
-        return { grade, point };  
-    }
-
-    
     function downloadCSV() {  
         if (resultsData.length === 0) {  
             alert('No results to download.');  
@@ -207,8 +149,8 @@ const groupByStudent = results.reduce((acc, student) => {
             'Name',  
             'Department',  
             'Session',  
-            'AllCourses',  
-            'TotalUnits',  
+            'All Courses Registered',  
+            'Total Units',  
             'CGPA'  
         ];  
         
