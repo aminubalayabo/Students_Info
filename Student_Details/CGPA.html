@@ -5,35 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Results Summary</title>
     <style>
-
-
-
-.pagination {
-    margin-top: 20px;
-}
-.page-btn {
-    margin: 0 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-
-        
-        body {  
-            font-family: Arial, sans-serif;  
-        }  
-        table {  
-            border-collapse: collapse;  
-            width: 100%;  
-            margin-top: 20px;  
-        }  
-        th, td {  
-            border: 1px solid #ddd;  
-            padding: 8px;  
-        }  
-        th {  
-            background-color: #f2f2f2;  
-        } 
+        /* ... (existing styles) ... */
     </style>
 </head>
 <body>
@@ -64,51 +36,6 @@
 <div id="results"></div>
 
 <script>
-let currentPage = 1;
-const resultsPerPage = 10;
-let paginatedResults = [];
-
-// Modify the displayResults function to use pagination
-function displayResults(results) {
-    if (results.length === 0) {
-        document.getElementById('results').innerHTML = 'No results found.';
-        return;
-    }
-
-    paginatedResults = results;
-    displayPage(currentPage);
-}
-
-function displayPage(page) {
-    const startIndex = (page - 1) * resultsPerPage;
-    const endIndex = startIndex + resultsPerPage;
-    const pageResults = paginatedResults.slice(startIndex, endIndex);
-
-    let output = '<button id="downloadCSV">Download CSV</button>';
-    output += generateResultsHTML(pageResults);
-    output += generatePaginationControls();
-
-    document.getElementById('results').innerHTML = output;
-    
-    
-function generateResultsHTML(results) {
-    let output = '';
-    // ... (existing code to generate results HTML)
-    return output;
-}
-
-function generatePaginationControls() {
-    const totalPages = Math.ceil(paginatedResults.length / resultsPerPage);
-    let controls = '<div class="pagination">';
-    
-    for (let i = 1; i <= totalPages; i++) {
-        controls += `<button class="page-btn" data-page="${i}">${i}</button>`;
-    }
-    
-    controls += '</div>';
-    return controls;
-}
-
     const url = 'https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/Student_Details/Details.txt';
     let studentData = [];
 
@@ -293,16 +220,6 @@ function generatePaginationControls() {
             document.getElementById('searchButton').addEventListener('click', searchByAdmissionNumber);
             document.getElementById('filterButton').addEventListener('click', filterByDepartment);
             document.getElementById('sessionButton').addEventListener('click', filterBySession);
-            // Add event listeners for pagination controls and CSV download
-    document.getElementById('downloadCSV').addEventListener('click', () => downloadCSV(paginatedResults));
-    document.querySelectorAll('.page-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            currentPage = parseInt(e.target.dataset.page);
-            displayPage(currentPage);
-        });
-    });
-}
-
         });
     };
 </script>
