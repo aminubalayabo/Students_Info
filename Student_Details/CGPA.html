@@ -102,13 +102,49 @@
         }  
     }  
 
+// claude part
+    // Add this function to generate CSV content
+function generateCSV(results) {
+    let csv = 'Admission Number,Name,Course Code,Course Units,CA Score,Exams Score,Total Score,Grade,Point,Grade Point\n';
+    results.forEach(student => {
+        csv += `${student.AdmissionNumber},${student.Name},${student.CourseCode},${student.CourseUnits},${student.CAScore},${student.ExamsScore},${parseInt(student.CAScore) + parseInt(student.ExamsScore)},${getGrade(parseInt(student.CAScore) + parseInt(student.ExamsScore)).grade},${getGrade(parseInt(student.CAScore) + parseInt(student.ExamsScore)).point},${getGrade(parseInt(student.CAScore) + parseInt(student.ExamsScore)).point * parseInt(student.CourseUnits)}\n`;
+    });
+    return csv;
+}
 
+// Add this function to trigger the download
+function downloadCSV(results) {
+    const csv = generateCSV(results);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "student_results.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+}
+// end
+
+
+    
 function displayResults(results) {  
     if (results.length === 0) {  
         document.getElementById('results').innerHTML = 'No results found.';  
         return;  
     }  
 
+// clude
+    let output = '<button onclick="downloadCSV(currentResults)">Download CSV</button>';
+
+
+
+
+
+    
     const groupByStudent = results.reduce((acc, student) => {  
         const admissionNumber = student.AdmissionNumber;  
         if (!acc[admissionNumber]) {  
@@ -235,315 +271,21 @@ function displayResults(results) {
     }  
 
     document.getElementById('results').innerHTML = output;  
+    window.currentResults = results; // Store the current results globally
 }
 
 
     
-//     function displayResults(results) {  
-//     if (results.length === 0) {  
-//         document.getElementById('results').innerHTML = 'No results found.';  
-//         return;  
-//     }  
 
-//     const groupByStudent = results.reduce((acc, student) => {  
-//         const admissionNumber = student.AdmissionNumber;  
-//         if (!acc[admissionNumber]) {  
-//             acc[admissionNumber] = {   
-//                 name: student.Name,   
-//                 sessions: {}   
-//             };  
-//         }  
-//         const session = student.Session;  
-//         if (!acc[admissionNumber].sessions[session]) {  
-//             acc[admissionNumber].sessions[session] = [];  
-//         }  
-//         acc[admissionNumber].sessions[session].push(student);  
-//         return acc;  
-//     }, {});  
-
-//     let output = '';  
-//     for (const admissionNumber in groupByStudent) {  
-//         const student = groupByStudent[admissionNumber];  
-//         output += `<h3>Admission Number: ${admissionNumber}, Name: ${student.name}</h3>`;  
-
-//         let totalUnitsOverall = 0;  
-//         let totalGradePointsOverall = 0;  
-//         let sessionCount = 0;  
-
-//         for (const session in student.sessions) {  
-//             output += `<h4>Results for Session: ${session}</h4>`;  
-//             output += `<table>  
-//                 <tr>  
-//                     <th>CourseCode</th>  
-//                     <th>CourseUnits</th>  
-//                     <th>CAScore</th>  
-//                     <th>ExamsScore</th>  
-//                     <th>TotalScore</th>  
-//                     <th>Grade</th>  
-//                     <th>Point</th>  
-//                     <th>GradePoint</th>  
-//                     <th>Total Units</th>  
-//                     <th>GPA</th>  
-//                 </tr>`;  
-
-//             let totalUnits = 0;  
-//             let totalGradePoints = 0;  
-
-//             student.sessions[session].forEach(course => {  
-//                 const totalScore = parseInt(course.CAScore) + parseInt(course.ExamsScore);  
-//                 const gradeInfo = getGrade(totalScore);  
-//                 totalUnits += parseInt(course.CourseUnits);  
-//                 totalGradePoints += (gradeInfo.point * parseInt(course.CourseUnits));  
-
-//                 output += `<tr>  
-//                     <td>${course.CourseCode}</td>  
-//                     <td>${course.CourseUnits}</td>  
-//                     <td>${course.CAScore}</td>  
-//                     <td>${course.ExamsScore}</td>  
-//                     <td>${totalScore}</td>  
-//                     <td>${gradeInfo.grade}</td>  
-//                     <td>${gradeInfo.point}</td>  
-//                     <td>${gradeInfo.point * parseInt(course.CourseUnits)}</td>  
-//                     <td>${totalUnits}</td>  
-//                 </tr>`;  
-//             });  
-
-//             totalUnitsOverall += totalUnits;  
-//             totalGradePointsOverall += totalGradePoints;  
-//             sessionCount++;  
-
-//             const gpa = (totalGradePoints / totalUnits).toFixed(2) || 0;  
-//             output += `<tr>  
-//                         <td colspan="8" style="text-align: right;">Total Units: ${totalUnits} | GPA: ${gpa}</td>  
-//                     </tr>`;  
-//             output += `</table>`;  
-//         }  
-
-//         const cumulativeGPA = (totalGradePointsOverall / totalUnitsOverall).toFixed(2) || 0;  
-//         output += `<h4>Cumulative Summary</h4>`;  
-//         output += `<table>  
-//             <tr>  
-//                 <th>Total Units</th>  
-//                 <th>CGPA</th>  
-//             </tr>  
-//             <tr>  
-//                 <td>${totalUnitsOverall}</td>  
-//                 <td>${cumulativeGPA}</td>  
-//             </tr>  
-//         </table>`;  
-//     }  
-
-//     document.getElementById('results').innerHTML = output;  
-// }
-
-// // function displayResults(results) {  
-//     if (results.length === 0) {  
-//         document.getElementById('results').innerHTML = 'No results found.';  
-//         return;  
-//     }  
-
-//     const groupByStudent = results.reduce((acc, student) => {  
-//         const admissionNumber = student.AdmissionNumber;  
-//         if (!acc[admissionNumber]) {  
-//             acc[admissionNumber] = {   
-//                 name: student.Name,   
-//                 sessions: {}   
-//             };  
-//         }  
-//         const session = student.Session;  
-//         if (!acc[admissionNumber].sessions[session]) {  
-//             acc[admissionNumber].sessions[session] = [];  
-//         }  
-//         acc[admissionNumber].sessions[session].push(student);  
-//         return acc;  
-//     }, {});  
-
-//     let output = '';  
-//     for (const admissionNumber in groupByStudent) {  
-//         const student = groupByStudent[admissionNumber];  
-//         output += `<h3>Admission Number: ${admissionNumber}, Name: ${student.name}</h3>`;  
-
-//         for (const session in student.sessions) {  
-//             output += `<h4>Results for Session: ${session}</h4>`;  
-//             output += `<table>  
-//                 <tr>  
-//                     <th>CourseCode</th>  
-//                     <th>CourseUnits</th>  
-//                     <th>CAScore</th>  
-//                     <th>ExamsScore</th>  
-//                     <th>TotalScore</th>  
-//                     <th>Grade</th>  
-//                     <th>Point</th>  
-//                     <th>GradePoint</th>  
-//                 </tr>`;  
-
-//             let totalUnits = 0;  
-//             let totalGradePoints = 0;  
-
-//             student.sessions[session].forEach(course => {  
-//                 const totalScore = parseInt(course.CAScore) + parseInt(course.ExamsScore);  
-//                 const gradeInfo = getGrade(totalScore);  
-//                 totalUnits += parseInt(course.CourseUnits);  
-//                 totalGradePoints += (gradeInfo.point * parseInt(course.CourseUnits));  
-
-//                 output += `<tr>  
-//                     <td>${course.CourseCode}</td>  
-//                     <td>${course.CourseUnits}</td>  
-//                     <td>${course.CAScore}</td>  
-//                     <td>${course.ExamsScore}</td>  
-//                     <td>${totalScore}</td>  
-//                     <td>${gradeInfo.grade}</td>  
-//                     <td>${gradeInfo.point}</td>  
-//                     <td>${gradeInfo.point * parseInt(course.CourseUnits)}</td>  
-//                 </tr>`;  
-//             });  
-
-//             const gpa = (totalGradePoints / totalUnits).toFixed(2) || 0;  
-//             output += `</table><h4>Total Units: ${totalUnits}</h4><h4>GPA: ${gpa}</h4>`;  
-//         }  
-//     }  
-
-//     document.getElementById('results').innerHTML = output;  
-// }
-
-    
-// function displayResults(results) {  
-//     if (results.length === 0) {  
-//         document.getElementById('results').innerHTML = 'No results found.';  
-//         return;  
-//     }  
-
-//     const groupByStudent = results.reduce((acc, student) => {  
-//         const admissionNumber = student.AdmissionNumber;  
-//         if (!acc[admissionNumber]) {  
-//             acc[admissionNumber] = {   
-//                 name: student.Name,   
-//                 sessions: {}   
-//             };  
-//         }  
-//         const session = student.Session;  
-//         if (!acc[admissionNumber].sessions[session]) {  
-//             acc[admissionNumber].sessions[session] = [];  
-//         }  
-//         acc[admissionNumber].sessions[session].push(student);  
-//         return acc;  
-//     }, {});  
-
-//     let output = '';  
-//     for (const admissionNumber in groupByStudent) {  
-//         const student = groupByStudent[admissionNumber];  
-//         output += `<h3>Admission Number: ${admissionNumber}, Name: ${student.name}</h3>`;  
-
-//         let totalUnitsOverall = 0;  
-//         let totalGradePointsOverall = 0;  
-//         let sessionCount = 0;  
-//         let cumulativeCourses = [];  // To hold courses from both sessions  
-
-//         for (const session in student.sessions) {  
-//             output += `<h4>Results for Session: ${session}</h4>`;  
-//             output += `<table>  
-//                 <tr>  
-//                     <th>CourseCode</th>  
-//                     <th>CourseUnits</th>  
-//                     <th>CAScore</th>  
-//                     <th>ExamsScore</th>  
-//                     <th>TotalScore</th>  
-//                     <th>Grade</th>  
-//                     <th>Point</th>  
-//                     <th>GradePoint</th>  
-//                 </tr>`;  
-
-//             let totalUnits = 0;  
-//             let totalGradePoints = 0;  
-
-//             student.sessions[session].forEach(course => {  
-//                 const totalScore = parseInt(course.CAScore) + parseInt(course.ExamsScore);  
-//                 const gradeInfo = getGrade(totalScore);  
-//                 totalUnits += parseInt(course.CourseUnits);  
-//                 totalGradePoints += (gradeInfo.point * parseInt(course.CourseUnits));  
-
-//                 output += `<tr>  
-//                     <td>${course.CourseCode}</td>  
-//                     <td>${course.CourseUnits}</td>  
-//                     <td>${course.CAScore}</td>  
-//                     <td>${course.ExamsScore}</td>  
-//                     <td>${totalScore}</td>  
-//                     <td>${gradeInfo.grade}</td>  
-//                     <td>${gradeInfo.point}</td>  
-//                     <td>${gradeInfo.point * parseInt(course.CourseUnits)}</td>  
-//                 </tr>`;  
-
-//                 cumulativeCourses.push(course);  // Collect courses for cumulative summary  
-//             });  
-
-//             totalUnitsOverall += totalUnits;  
-//             totalGradePointsOverall += totalGradePoints;  
-//             sessionCount++;  
-
-//             const gpa = (totalGradePoints / totalUnits).toFixed(2) || 0;  
-//             output += `<tr>  
-//                         <td colspan="7" style="text-align: right;">Total Units: ${totalUnits} | GPA: ${gpa}</td>  
-//                     </tr>`;  
-//             output += `</table>`;  
-//         }  
-
-//         const cumulativeGPA = (totalGradePointsOverall / totalUnitsOverall).toFixed(2) || 0;  
-//         output += `<h4>Cumulative Summary</h4>`;  
-//         output += `<table>  
-//             <tr>  
-//                 <th>CourseCode</th>  
-//                 <th>CourseUnits</th>  
-//                 <th>CAScore</th>  
-//                 <th>ExamsScore</th>  
-//                 <th>TotalScore</th>  
-//                 <th>Grade</th>  
-//                 <th>Point</th>  
-//                 <th>GradePoint</th>  
-//                 <th>Total Units</th>  
-//                 <th>CGPA</th>  
-//             </tr>`;  
-        
-//         cumulativeCourses.forEach(course => {  
-//             const totalScore = parseInt(course.CAScore) + parseInt(course.ExamsScore);  
-//             const gradeInfo = getGrade(totalScore);  
-//             const gradePoint = (gradeInfo.point * parseInt(course.CourseUnits));  
-
-//             output += `<tr>  
-//                 <td>${course.CourseCode}</td>  
-//                 <td>${course.CourseUnits}</td>  
-//                 <td>${course.CAScore}</td>  
-//                 <td>${course.ExamsScore}</td>  
-//                 <td>${totalScore}</td>  
-//                 <td>${gradeInfo.grade}</td>  
-//                 <td>${gradeInfo.point}</td>  
-//                 <td>${gradePoint}</td>  
-//             </tr>`;  
-//         });  
-
-//         output += `<tr>  
-//             <td colspan="8" style="text-align: right;">Total Units:</td>  
-//             <td>${totalUnitsOverall}</td>  
-//         </tr>`;  
-//         output += `<tr>  
-//             <td colspan="8" style="text-align: right;">CGPA:</td>  
-//             <td>${cumulativeGPA}</td>  
-//         </tr>`;  
-
-//         output += `</table>`;  
-//     }  
-
-//     document.getElementById('results').innerHTML = output;  
-// }
-
-  
-    
+     // let output = `<table>  
     function displayDepartmentResults(results) {  
         if (results.length === 0) {  
             document.getElementById('results').innerHTML = 'No results found for this department.';  
             return;  
         }  
-
-        let output = `<table>  
+let output = '<button onclick="downloadCSV(currentResults)">Download CSV</button>';
+    output += `<table>
+       
             <tr>  
                 <th>AdmissionNumber</th>  
                 <th>Name</th>  
@@ -564,7 +306,8 @@ function displayResults(results) {
         });  
 
         output += `</table>`;  
-        document.getElementById('results').innerHTML = output;  
+        document.getElementById('results').innerHTML = output; 
+        window.currentResults = results; // Store the current results globally
     }  
 
     function getGrade(totalScore) {  
