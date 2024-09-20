@@ -103,15 +103,12 @@
     }  
 
 
-
 function displayResults(results) {  
     if (results.length === 0) {  
         document.getElementById('results').innerHTML = 'No results found.';  
         return;  
     }  
 
-
-    
     const groupByStudent = results.reduce((acc, student) => {  
         const admissionNumber = student.AdmissionNumber;  
         if (!acc[admissionNumber]) {  
@@ -223,16 +220,21 @@ function displayResults(results) {
         <td colspan="10" style="text-align: right;">Total Units: ${totalUnitsOverall} | CGPA: ${cumulativeGPA}</td>
           
         </tr>`;  
-       
+        //     <td colspan="8" style="text-align: right;">Total Units:</td>  
+        //     <td>${totalUnitsOverall}</td>
+        
+        
+        
+        
+        // output += `<tr>  
+        //     <td colspan="8" style="text-align: right;">CGPA:</td>  
+        //     <td>${cumulativeGPA}</td>  
+        // </tr>`;  
+
          output += `</table>`;  
     }  
 
-    document.getElementById('results').innerHTML = output; 
-
-
- 
-
-    
+    document.getElementById('results').innerHTML = output;  
 }
 
 
@@ -541,9 +543,7 @@ function displayResults(results) {
             return;  
         }  
 
-        let output = `<table> 
-    
-    output += `<table>
+        let output = `<table>  
             <tr>  
                 <th>AdmissionNumber</th>  
                 <th>Name</th>  
@@ -565,9 +565,6 @@ function displayResults(results) {
 
         output += `</table>`;  
         document.getElementById('results').innerHTML = output;  
-
-        // document.getElementById('results').innerHTML = output;
-    // window.currentResults = results; // Store the current results globally
     }  
 
     function getGrade(totalScore) {  
