@@ -6,7 +6,7 @@
     <title>Student Results Summary</title>
     <style>
 
-/* // Add this CSS to your <style> tag */
+
 
 .pagination {
     margin-top: 20px;
@@ -90,16 +90,7 @@ function displayPage(page) {
 
     document.getElementById('results').innerHTML = output;
     
-    // Add event listeners for pagination controls and CSV download
-    document.getElementById('downloadCSV').addEventListener('click', () => downloadCSV(paginatedResults));
-    document.querySelectorAll('.page-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            currentPage = parseInt(e.target.dataset.page);
-            displayPage(currentPage);
-        });
-    });
-}
-
+    
 function generateResultsHTML(results) {
     let output = '';
     // ... (existing code to generate results HTML)
@@ -302,6 +293,16 @@ function generatePaginationControls() {
             document.getElementById('searchButton').addEventListener('click', searchByAdmissionNumber);
             document.getElementById('filterButton').addEventListener('click', filterByDepartment);
             document.getElementById('sessionButton').addEventListener('click', filterBySession);
+            // Add event listeners for pagination controls and CSV download
+    document.getElementById('downloadCSV').addEventListener('click', () => downloadCSV(paginatedResults));
+    document.querySelectorAll('.page-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            currentPage = parseInt(e.target.dataset.page);
+            displayPage(currentPage);
+        });
+    });
+}
+
         });
     };
 </script>
