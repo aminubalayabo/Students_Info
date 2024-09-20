@@ -102,28 +102,28 @@
         }  
     }  
 // Add this function to generate CSV content
-function generateCSV(results) {
-    let csv = 'Admission Number,Name,Course Code,Course Units,CA Score,Exams Score,Total Score,Grade,Point,Grade Point\n';
-    results.forEach(student => {
-        csv += `${student.AdmissionNumber},${student.Name},${student.CourseCode},${student.CourseUnits},${student.CAScore},${student.ExamsScore},${parseInt(student.CAScore) + parseInt(student.ExamsScore)},${getGrade(parseInt(student.CAScore) + parseInt(student.ExamsScore)).grade},${getGrade(parseInt(student.CAScore) + parseInt(student.ExamsScore)).point},${getGrade(parseInt(student.CAScore) + parseInt(student.ExamsScore)).point * parseInt(student.CourseUnits)}\n`;
-    });
-    return csv;
-}
+// function generateCSV(results) {
+//     let csv = 'Admission Number,Name,Course Code,Course Units,CA Score,Exams Score,Total Score,Grade,Point,Grade Point\n';
+//     results.forEach(student => {
+//         csv += `${student.AdmissionNumber},${student.Name},${student.CourseCode},${student.CourseUnits},${student.CAScore},${student.ExamsScore},${parseInt(student.CAScore) + parseInt(student.ExamsScore)},${getGrade(parseInt(student.CAScore) + parseInt(student.ExamsScore)).grade},${getGrade(parseInt(student.CAScore) + parseInt(student.ExamsScore)).point},${getGrade(parseInt(student.CAScore) + parseInt(student.ExamsScore)).point * parseInt(student.CourseUnits)}\n`;
+//     });
+//     return csv;
+// }
 
 // Add this function to trigger the download
-function downloadCSV(results) {
-    const csv = generateCSV(results);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", "student_results.csv");
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
+// function downloadCSV(results) {
+//     const csv = generateCSV(results);
+//     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+//     const link = document.createElement("a");
+//     if (link.download !== undefined) {
+//         const url = URL.createObjectURL(blob);
+//         link.setAttribute("href", url);
+//         link.setAttribute("download", "student_results.csv");
+//         link.style.visibility = 'hidden';
+//         document.body.appendChild(link);
+//         link.click();
+//         document.body.removeChild(link);
+//     }
 }
 
 
