@@ -5,46 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Results Summary</title>
     <style>
-       #loginForm, #logoutBtn {
-            display: none;
-        }
-        #logoutBtn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-    body {  
-            font-family: Arial, sans-serif;  
-        }  
-        table {  
-            border-collapse: collapse;  
-            width: 100%;  
-            margin-top: 20px;  
-        }  
-        th, td {  
-            border: 1px solid #ddd;  
-            padding: 8px;  
-        }  
-        th {  
-            background-color: #f2f2f2;  
-        }    }
-    
-    
-    
+        /* ... (existing styles) ... */
     </style>
 </head>
 <body>
-<div id="loginForm" style="display: block;>
-        <h2>Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button id="loginBtn">Login</button>
-    </div>
 
-    <button id="logoutBtn">Logout</button>
-
-    <div id="mainContent" style="display: none;"></div>
-        <!-- ... (existing content) ... -->
-    
 <h1>Student Results Summary</h1>
 
 <h2>Search by Admission Number</h2>
@@ -75,11 +40,6 @@
     let studentData = [];
 
     async function fetchStudentData() {
-            if (!currentUser) {
-                console.log('User not logged in');
-                return;
-            }
-        
         try {
             const response = await fetch(url);
             const data = await response.text();
@@ -89,6 +49,7 @@
             console.error('Error fetching data:', error);
         }
     }
+
     function parseData(data) {
         const lines = data.trim().split('\n');
         const header = lines[0].split(',');
@@ -253,49 +214,12 @@
         }
     }
 
-
-        // User authentication
-        const users = [
-            { username: 'admin', password: 'password123' },
-            { username: 'user', password: 'userpass' }
-        ];
-
-        let currentUser = null;
-
-        function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const user = users.find(u => u.username === username && u.password === password);
-            
-            if (user) {
-                currentUser = user;
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                document.getElementById('logoutBtn').style.display = 'block';
-                fetchStudentData(); // Load data after successful login
-            } else {
-                alert('Invalid username or password');
-            }
-        }
-
-        function logout() {
-            currentUser = null;
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('mainContent').style.display = 'none';
-            document.getElementById('logoutBtn').style.display = 'none';
-            document.getElementById('results').innerHTML = '';
-        }
-
-
-    
     window.onload = () => {
         fetchStudentData().then(() => {
             console.log('Data loaded, setting up event listeners');
             document.getElementById('searchButton').addEventListener('click', searchByAdmissionNumber);
             document.getElementById('filterButton').addEventListener('click', filterByDepartment);
             document.getElementById('sessionButton').addEventListener('click', filterBySession);
-            document.getElementById('loginBtn').addEventListener('click', login);
-            document.getElementById('logoutBtn').addEventListener('click', logout);
         });
     };
 </script>
