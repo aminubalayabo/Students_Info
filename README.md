@@ -15,4 +15,4 @@
   - [Result view](Student_Details/view.html)
   - [Result view1](Student_Details/view1.html)
   - [Profile view](Student_Details/profile.html)
-  - [ViewResulttral](Students_Result/results.html)
+  - [CGPA Trial](Student_Details/CGPA.html)
