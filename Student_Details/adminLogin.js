@@ -1,7 +1,7 @@
 // GitHub repository details
 const owner = 'aminubalayabo';
 const repo = 'aminubalayabo.github.io';
-const path = 'Students_Info/main/Student_Details/adminDetails.txt';
+const path = 'Students_Info/Student_Details/adminDetails.txt';
 
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -19,7 +19,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
                 // Login successful
                 sessionStorage.setItem('currentUser', JSON.stringify(fields));
                 // window.location.href = 'profile.html';
-                window.location.href = 'studentDashboard.html';
+                // window.location.href = 'studentDashboard.html';
+                window.location.href = 'https://aminubalayabo.github.io/Students_Info/Student_Details/view1.html'; 
                 return;
             }
         }
