@@ -13,6 +13,7 @@
 * *see account information with picture. * *modify contact information and password. * *see his/her students report. * *Attendance like this month absent present his students. * * see his/her students Grade. * *see his/her student’s payment.
   #SOBAS
   - [Result view](Student_Details/view.html)
+  - [Menu Page](Student_Details/MainMenu.html)
   - [Result view1](Student_Details/view1.html)
   - [Profile view](Student_Details/profile.html)
   - [CGPA Trial](Student_Details/CGPA.html)
