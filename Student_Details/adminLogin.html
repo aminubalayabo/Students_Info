@@ -54,7 +54,7 @@
             const response = await fetch('https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/Student_Details/adminDetails.txt');  
             const data = await response.text();  
             const admins = data.split('\n').map(line => {  
-                const [username, password] = line.split(':');  
+                const [username, password] = line.split(',');  
                 return { username: username.trim(), password: password.trim() };  
             });  
             return admins;  
