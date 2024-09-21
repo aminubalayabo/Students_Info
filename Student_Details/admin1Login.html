@@ -57,7 +57,7 @@
             fetch('https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/Student_Details/adminDetails.txt')
                 .then(response => response.text())
                 .then(data => {
-                    const adminDetails = data.split('\n').map(line => line.split(':'));
+                    const adminDetails = data.split('\n').map(line => line.split(','));
                     const adminMap = new Map(adminDetails);
 
                     if (adminMap.get(username) === password) {
