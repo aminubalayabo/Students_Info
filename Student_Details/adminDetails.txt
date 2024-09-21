@@ -1,8 +1,8 @@
-username,password
-aminubala,kcobra
-bala.aminu,kcobra1
-bandiya.haliru,123456
-director,admin
-asmau,faruk
-aminubala,123456
+username:password
+aminubala:kcobra
+balaaminu:kcobra1
+bandiyahaliru:123456
+director:admin
+asmau:faruk
+aminubala:123456
 
