@@ -1,7 +1,7 @@
 // GitHub repository details
 const owner = 'aminubalayabo';
 const repo = 'aminubalayabo.github.io';
-const path = 'Student_Information/Students_Profile.txt';
+const path = 'Students_Info/main/Student_Details/adminDetails.txt';
 
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
