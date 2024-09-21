@@ -14,7 +14,7 @@
   #SOBAS
   - [Result view](Student_Details/view.html)
   - [Admin Login Trial](Student_Details/adminLogin.html)
-  - [Aminubala LoginFirst](Student_Details/Student_Details/aminLogin.html)
+  - [Aminubala LoginFirst](Student_Details/aminLogin.html)
   - [Menu Page](Student_Details/MainMenu.html)
   - [Result view1](Student_Details/view1.html)
   - [Profile view](Student_Details/profile.html)
