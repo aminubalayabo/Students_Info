@@ -1,4 +1,6 @@
 username,password
+admin1,123456
+admin2,kcobra
 aminubala,kcobra
 balaaminu,kcobra1
 bandiyahaliru,123456
