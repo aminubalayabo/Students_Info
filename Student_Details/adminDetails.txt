@@ -1,9 +1,8 @@
-username,password,name,email
-aminubala,kcobra,aybala,"aminubala@gmail.com"
+username,password
+aminubala,kcobra
 bala.aminu,kcobra1
 bandiya.haliru,123456
 director,admin
 asmau,faruk
-Username: aminubala, Password: 123456
 aminubala,123456
 
