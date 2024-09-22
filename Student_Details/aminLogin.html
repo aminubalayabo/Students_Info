@@ -122,7 +122,7 @@
                     console.log('Parsed admin details:', adminDetails);
                     console.log('Checking:', username, 'against stored password:', adminDetails[username]);
 
-                    if (username in adminDetails === username && password === password) {
+                    if (username in adminDetails === username) {
                         console.log('Login successful');
                         loginForm.style.display = 'none';
                         successMessage.style.display = 'block';
