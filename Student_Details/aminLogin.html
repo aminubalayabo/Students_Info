@@ -115,14 +115,14 @@
                     data.trim().split('\n').forEach(line => {
                         const [user, pass] = line.split(':').map(item => item.trim());
                         if (user && pass) {
-                            adminDetails[user] = pass;
+                            adminDetails[user] = user;
                         }
                     });
 
                     console.log('Parsed admin details:', adminDetails);
                     console.log('Checking:', username, 'against stored password:', adminDetails[username]);
 
-                    if (username in adminDetails && adminDetails[username] === password) {
+                    if (username in adminDetails === username && password === password) {
                         console.log('Login successful');
                         loginForm.style.display = 'none';
                         successMessage.style.display = 'block';
