@@ -6,6 +6,6 @@ balaaminu:kcobra1
 bandiyahaliru:123456
 director:admin
 asmau:faruk
-aminubala:123456
-aminubala:aminubala
+aminibala:123456
+aminbala:aminubala
 
