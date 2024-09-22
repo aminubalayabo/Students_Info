@@ -113,7 +113,6 @@
                         // if (user) {
                         //     adminDetails[user] = pass;
                         // }
-                    });
 // username in adminDetails && adminDetails[username] === password
                     if (user === username && pass === password) {
                         loginForm.style.display = 'none';
@@ -130,6 +129,9 @@
                     showError('An error occurred: ' + error.message);
                 });
         }
+                        
+                    });
+// here
 
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
