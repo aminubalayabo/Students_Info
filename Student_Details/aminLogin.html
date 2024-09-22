@@ -114,9 +114,9 @@
                     const adminDetails = {};
                     data.trim().split('\n').forEach(line => {
                         const [user, pass] = line.split(':').map(item => item.trim());
-                        if (user) {
-                            adminDetails[user] = user;
-                        }
+                        // if (user) {
+                        //     adminDetails[user] = user;
+                        // }
                     });
 
                     console.log('Parsed admin details:', adminDetails);
