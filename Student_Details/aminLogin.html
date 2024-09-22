@@ -107,7 +107,7 @@
                         throw new Error('Admin details file is empty');
                     }
                     
-                    const adminDetails = {};
+                    // const adminDetails = {};
                     data.trim().split('\n').forEach(line => {
                         const [user, pass] = line.split(':').map(item => item.trim());
                         // if (user) {
