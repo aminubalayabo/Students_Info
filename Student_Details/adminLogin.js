@@ -10,7 +10,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     try {
         // const response = await axios.get(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`);
-        const response = await axios.get(`https://aminubalayabo.github.io/Students_Info/Student_Details/adminDetails.txt`);
+        const response = await axios.get(`https://raw.githubusercontent.com/aminubalayabo/Students_Info/refs/heads/main/Student_Details/adminDetails.txt`);
         const content = atob(response.data.content);
         const lines = content.split('\n');
 
