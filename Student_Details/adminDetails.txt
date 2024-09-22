@@ -1,5 +1,5 @@
 username,password
-admin1,123456
+admin1,admin1
 admin2,kcobra
 aminubala,kcobra
 balaaminu,kcobra1
@@ -7,4 +7,5 @@ bandiyahaliru,123456
 director,admin
 asmau,faruk
 aminubala,123456
+aminubala,aminubala
 
