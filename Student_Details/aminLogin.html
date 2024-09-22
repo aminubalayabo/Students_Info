@@ -14,7 +14,7 @@
             margin: 0;
             background-color: #f0f0f0;
         }
-        form, #successMessage, #errorMessage {
+        #container {
             background-color: white;
             padding: 20px;
             border-radius: 5px;
@@ -42,12 +42,19 @@
         button:hover {
             background-color: #45a049;
         }
-        #successMessage, #errorMessage {
+        #successMessage, #errorMessage, #debugInfo {
             display: none;
+            margin-top: 20px;
         }
-        #errorMessage {
+        #errorMessage, #debugInfo {
             color: #D8000C;
             background-color: #FFD2D2;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        #debugInfo {
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -71,12 +78,15 @@
             <p id="errorText"></p>
             <button id="retryButton">Retry</button>
         </div>
+
+        <div id="debugInfo"></div>
     </div>
 
     <script>
         const loginForm = document.getElementById('loginForm');
         const successMessage = document.getElementById('successMessage');
         const errorMessage = document.getElementById('errorMessage');
+        const debugInfo = document.getElementById('debugInfo');
         const adminName = document.getElementById('adminName');
         const logoutButton = document.getElementById('logoutButton');
         const retryButton = document.getElementById('retryButton');
@@ -88,6 +98,11 @@
             errorMessage.style.display = 'block';
         }
 
+        function showDebugInfo(info) {
+            debugInfo.textContent = JSON.stringify(info, null, 2);
+            debugInfo.style.display = 'block';
+        }
+
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
@@ -95,15 +110,24 @@
             // Fetch admin details from GitHub
             fetch('https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/Student_Details/adminDetails.txt')
                 .then(response => {
+                    showDebugInfo({
+                        status: response.status,
+                        statusText: response.statusText,
+                        headers: Object.fromEntries(response.headers.entries())
+                    });
                     if (!response.ok) {
                         throw new Error('Failed to fetch admin details. Status: ' + response.status);
                     }
                     return response.text();
                 })
                 .then(data => {
-                    if (!data.trim()) {
+                    if (data === undefined) {
+                        throw new Error('Received undefined data from server');
+                    }
+                    if (!data || !data.trim()) {
                         throw new Error('Admin details file is empty');
                     }
+                    showDebugInfo({ dataLength: data.length, dataSample: data.substring(0, 100) });
                     const adminDetails = data.trim().split('\n').map(line => {
                         const [user, pass] = line.split(':');
                         return [user.trim(), pass.trim()];
@@ -113,6 +137,8 @@
                     if (adminMap.has(username) && adminMap.get(username) === password) {
                         loginForm.style.display = 'none';
                         successMessage.style.display = 'block';
+                        errorMessage.style.display = 'none';
+                        debugInfo.style.display = 'none';
                         adminName.textContent = username;
                         // Uncomment the next line to redirect after successful login
                         // window.location.href = 'https://aminubalayabo.github.io/Students_Info/Student_Details/view1.html';
@@ -140,13 +166,12 @@
 
         retryButton.addEventListener('click', function() {
             errorMessage.style.display = 'none';
+            debugInfo.style.display = 'none';
             loginForm.style.display = 'block';
         });
     </script>
 </body>
 </html>
-
-
 
 
 
