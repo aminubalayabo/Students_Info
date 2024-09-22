@@ -18,7 +18,43 @@
     </form>  
     <p id="message"></p>  
 
-    <script src="script.js"></script>  
+<!--     <script src="script.js"></script>   -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {  
+    event.preventDefault();  
+
+    const username = document.getElementById('username').value;  
+    const password = document.getElementById('password').value;  
+
+    fetch('https://raw.githubusercontent.com/aminubalayabo/Students_Info/main/Student_Details/adminDetails.txt')  
+        .then(response => response.text())  
+        .then(data => {  
+            const lines = data.split('\n');  
+            let credentialsValid = false;  
+
+            for (const line of lines) {  
+                const [storedUsername, storedPassword] = line.split(',');  
+                if (storedUsername && storedPassword) {  
+                    // Trim spaces in case of formatting issues in the txt file  
+                    if (storedUsername.trim() === username && storedPassword.trim() === password) {  
+                        credentialsValid = true;  
+                        break;  
+                    }  
+                }  
+            }  
+
+            if (credentialsValid) {  
+                window.location.href = "https://aminubalayabo.github.io/Students_Info/Student_Details/view1.html";  
+            } else {  
+                document.getElementById('message').innerText = "Invalid username or password.";  
+            }  
+        })  
+        .catch(error => {  
+            console.error('Error fetching credentials:', error);  
+            document.getElementById('message').innerText = "Error loading credentials.";  
+        });  
+});
+    </script>
 </body>  
 </html>
 
