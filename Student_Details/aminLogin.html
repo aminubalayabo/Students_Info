@@ -73,7 +73,7 @@
                 .then(response => response.text())
                 .then(data => {
                     const adminDetails = data.trim().split('\n').map(line => {
-                        const [user, pass] = line.split(':');
+                        const [user, pass] = line.split(',');
                         return [user.trim(), pass.trim()];
                     });
                     const adminMap = new Map(adminDetails);
