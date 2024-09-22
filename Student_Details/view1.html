@@ -55,6 +55,10 @@
 </select>
 <button id="sessionButton">Search by Session</button>
 
+<button onclick="logout()">Logout</button>  
+
+
+    
 <div id="results"></div>
 
 <script>
@@ -246,5 +250,19 @@
     };
 </script>
 
+<script>  
+    function logout() {  
+        // Remove user from session storage  
+        sessionStorage.removeItem('loggedInUser');  
+        // Redirect back to login page  
+        window.location.href = "login.html";  // Ensure correct path to your login page  
+    }  
+    
+    // Check if the user is logged in  
+    if (!sessionStorage.getItem('loggedInUser')) {  
+        alert("You must be logged in to view this page.");  
+        window.location.href = "login.html";  // Redirect to login if not logged in  
+    }  
+</script>  
 </body>
 </html>
