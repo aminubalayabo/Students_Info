@@ -33,7 +33,7 @@
             let credentialsValid = false;  
 
             for (const line of lines) {  
-                const [storedUsername, storedPassword] = line.split(',');  
+                const [storedUsername, storedPassword] = line.split(':');  
                 if (storedUsername && storedPassword) {  
                     // Trim spaces in case of formatting issues in the txt file  
                     if (storedUsername.trim() === username && storedPassword.trim() === password) {  
